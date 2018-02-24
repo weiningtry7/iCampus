@@ -1,0 +1,8 @@
+source 'https://github.com/CocoaPods/Specs.git'
+platform :ios,9.0
+inhibit_all_warnings!
+pod 'Moya', '~> 11.0'
+target "iCampus_Swift" do
+use_frameworks!
+project 'iCampus_Swift.xcodeproj'
+end

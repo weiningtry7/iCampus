@@ -1,0 +1,1143 @@
+<!DOCTYPE html><head>
+<meta charset="utf-8"> 
+<meta name="viewport" content="height=device-height,initial-scale=1, maximum-scale=1">
+<title></title>
+<!-- <script src="adController_android.js"></script> -->
+<style type="text/css">
+* { padding:0; margin:0;}
+body{
+margin:0px auto;
+}
+.poster {
+    vertical-align:middle;
+    width:100%;
+    max-height:100%;
+    max-width:100%;
+    height:100%;
+}
+.con_div{
+width: 100%;
+text-align:center;
+vertical-align:middle;
+color:#000;
+}
+.iframeDiv{
+position:absolute;
+filter:alpha(Opacity=80);
+z-index:100;
+width:100%;
+height:100%;
+}
+.float_div{
+position:absolute;
+float:right;
+z-index:100;
+width:75px;
+height:75px;
+right:0;
+top:0;
+background-image:url(http://ad-cache.dopool.com/ad/AdSale/html_api/bg_video_ad_timer.png);
+}
+.close_div{
+position:absolute;
+float:right;
+z-index:100;
+right:0;
+top:0;
+text-align: right;
+}
+.back{
+position:absolute;
+float:left;
+z-index:100;
+left:0;
+top:0;
+}
+.timer{
+color:#fff;    
+position:absolute;
+z-indent:2;
+left:0;
+top:0;
+}
+
+</style>
+</head>
+<body>
+    <div class="con_div" id="con_div">
+        <div class="back" onclick="goback()" style='display:none'>
+            <div id="" class="timer">
+                    <img id="backImg" src="http://ad-cache.dopool.com/ad/AdSale/html_api/back_from_video_ad.png">
+            </div>
+        </div>
+        <div id="float_div" class="float_div" style='display:none'>
+                <div id="timer" class="timer">
+                    5
+                </div>
+        </div>
+        <div id="close" class="close_div" style='display:none'>
+                <img id="close_img" onclick="AdJsServerController.closeImg()" src="http://ad-cache.dopool.com/ad/AdSale/html_api/close.png">
+        </div>
+        <div onclick="AdJsServerController.downloadapp()" id="iframeDiv" class="iframeDiv" style="display:none;"></div>
+        <iframe id="iframe" width="100%" height="100%" style="display:none" src=""></iframe>
+        <img onclick="AdJsServerController.downloadapp()" id="ad_img" src="" class="poster" >
+        <img style="display:none" id="start_ad_img" src="" class="poster" >
+        <input id="ad_location" type="hidden" value="">
+        <input id="app_name" type="hidden" value="">
+        <input id="app_iscancel" type="hidden" value="">
+        <input id="location_type" type="hidden" value="">
+        <input id="user_imp" type="hidden" value="">
+        <input id="user_clk" type="hidden" value="">
+        <input id="third_imp" type="hidden" value="">
+        <input id="third_clk" type="hidden" value="">
+        <input id="sm_clk" type="hidden" value="">
+        <input id="orderid" type="hidden" value="">
+    </div>
+</body>
+<script>
+//测试数据
+/*
+var AdInterface = {
+getPhoneInfo:function(){
+    return '{"uuid":"FD84A665-F748-4E22-9ACE-199EDBEF1569","imsi":"","mac":"02:00:00:00:00:00","net":"WIFI","appver":"6.2.1","deviceId":"0","reslevel":3,"platform":"apple","osver":"9.2.1","manufacturer":"apple","resolution":"1242x2208","dmodel":"iPhone","app_key":"4MUAHmQFf1YR"}';
+},
+getDataCache:function(key){
+    res=localStorage.getItem(key);
+    return res;
+},
+setDataCache:function(key,value){
+    localStorage.setItem(key,value);
+
+},
+removeDataCache:function(key){
+    localStorage.removeItem(key);
+},
+dowloadApp:function(){
+
+},
+openNewTablet:function(str,url,num){
+console.log('openUrl'+url)
+},
+back:function(){
+console.log('back')
+},
+show:function(){
+console.log('show')
+},
+hide:function(){
+console.log('hide')
+},
+getHdtData:function(){
+
+return '{"adid":"FT1601220017","advalidity":"20160205","cid":"CT160125001","type":"banner","ver":"1.00","img":{"dld_base":"http://res.icast.cn/Real/4486/201/","urls":[{"width":240,"height":38,"value":"240X38.gif"},{"width":320,"height":50,"value":"320X50.gif"},{"width":480,"height":75,"value":"480X75.gif"},{"width":640,"height":100,"value":"640X100.gif"}]},"clk":{"type":"browser","urls":[{"os":0,"value":"http://e.cn.miaozhen.com/r/k=2017755&p=6zGpU&dx=0&rt=2&ns=__IP__&ni=__IESID__&v=__LOC__&nd=__DRA__&np=__POS__&nn=__APP__&o=m.bj.happyvalley.cn/"},{"os":1,"value":""},{"os":2,"value":""},{"os":3,"value":""}]},"tracks":[{"type":"sm_imp","url":"http://adm.dxpmedia.com/count/imocha/?xpos_id=$run:x_pos_id$&idtype=1&id=FT1601220017&bid=4F6F206F-1599-1355-A1EE-6CFD1802880C&campaign_id=CP1601110016&flight_id=FT1601220017-26333&feature_id=26333&sub_feature_id=&pos_id=PM1304287287&c_p_id=&c_id=CT160125001&t_id=&partner_id=&guid=868090026641540&os=1&osv=4.4.2&ua=curl/7.22.0%20(x86_64-pc-linux-gnu)%20libcurl/7.22.0%20OpenSSL/1.0.1%20zlib/1.2.3.4%20libidn/1.23%20librtmp/2.3&gps=&sub_id=imocha&funcs=&scrn_w=720&scrn_h=1280&r=[RND]&ext=ZmM9Q0VPLTMtMS0xLTI5LTE6UE0xMzA0Mjg3Mjg3Jm1lZGlhX2lkPTY=&uid=868090026641540&t_s_id=&bk_id=&k=2&kw=&t=cpm"},{"type":"sm_clk","url":"http://adm.dxpmedia.com/count/imocha/?xpos_id=$run:x_pos_id$&idtype=1&id=FT1601220017&bid=4F6F206F-1599-1355-A1EE-6CFD1802880C&campaign_id=CP1601110016&flight_id=FT1601220017-26333&feature_id=26333&sub_feature_id=&pos_id=PM1304287287&c_p_id=&c_id=CT160125001&t_id=&partner_id=&guid=868090026641540&os=1&osv=4.4.2&ua=curl/7.22.0%20(x86_64-pc-linux-gnu)%20libcurl/7.22.0%20OpenSSL/1.0.1%20zlib/1.2.3.4%20libidn/1.23%20librtmp/2.3&gps=&sub_id=imocha&funcs=&scrn_w=720&scrn_h=1280&r=[RND]&ext=ZmM9Q0VPLTMtMS0xLTI5LTE6UE0xMzA0Mjg3Mjg3Jm1lZGlhX2lkPTY=&uid=868090026641540&t_s_id=&bk_id=&k=2&kw=&t=cpc"},{"type":"um_imp","url":"http://g.cn.miaozhen.com/x/k=2017755&p=6zGpU&dx=0&rt=2&ns=__IP__&ni=__IESID__&v=__LOC__&nd=__DRA__&np=__POS__&nn=__APP__&rnd=9030&o="},{"type":"um_clk","url":""},{"type":"tm_imp","url":""},{"type":"tm_clk","url":""}]}';
+
+},
+getApi:function(url,method,params,headers,timeout){
+return 'eyJDT0RFIjoiU1VDQ0VTUyIsIkRBVEEiOnsiQURWSUVXX0VYSVRQTEFZIjp7IlZJREVPSURTIjoiYWxsIiwiVFlQRSI6IkFEVklFV19FWElUUExBWSIsIlBSSU9SSVRZIjoiMCIsIlBBUkFNUyI6Im9yZGVyaWQ9NzQ3MSIsIkNVU1RPTV9TSE9XIjoiIiwiQ1VTVE9NX0NMSUNLIjoiIiwiTUFSS0VUIjoiIiwiREFZX05VTSI6IjAifSwiTE9BRElORyI6e30sIldPUkQiOnt9LCJUSElSRFJFQ09NTUVORCI6e30sIkJBSUxJTl9MT0FESU5HIjp7fSwiQURDSElOQSI6e30sIkFEVE9VQ0giOnt9LCJBRE1PQiI6eyJNQVJLRVQiOiIiLCJQUklPUklUWSI6IjMiLCJWSURFT0lEUyI6ImFsbCIsIkNVU1RPTV9TSE9XIjoiIiwiUEFSQU1TIjoib3JkZXJpZD03NjU5IiwiRFVSQVRJT04iOiIxNSIsIkNVU1RPTV9DTElDSyI6IiIsIlRZUEUiOiJBRE1PQiIsIkRBWV9OVU0iOiIwIn0sIkxPTUFSS19JTlNDUkVFTiI6e30sIkJJTkRBUFAiOnsiNzY3MSI6eyJDVVNUT01fQ0xJQ0siOiIiLCJQQUNLQUdFX05BTUUiOiJjb20uc3MuYW5kcm9pZC5hcnRpY2xlLm5ld3MiLCJEQVlfTlVNIjoiMCIsIklTX0lOU1RBTEwiOiIxIiwiQVBQU0laRSI6IiIsIlhfSUNPTiI6IiIsIk1BUktFVCI6IiIsIkxPQ0FUSU9OIjoiaHR0cDpcL1wvYWQuZG9wb29sLmNvbVwvYWRcL0FkU2FsZVwvQ2xpXC9hZERhdGFBcGkucGhwP2FkY2F0ZWdvcmllcz0wMDImYXBwX3VybF9uYW1lPeS7iuaXpeWktOadoS5hcGsuYXBrJmFwcF91cmw9aHR0cCUzQSUyRiUyRmFwcC5zdGFyc2NoaW5hLmNvbSUyRmFkJTJGamlucml0b3V0aWFvJTJGTmV3c0FydGljbGUuYXBrJmFwcF9pc2NhbmNlbD0wJm9yZGVyaWQ9NzY3MSZjbGllbnRfaXA9MTA2LjIuMjEzLjQyJmFwcF9rZXk9NE1VQUhtUUZmMVlSJnV1aWQ9ZmIxNDk3ZGUtNzlhYi0zMDM4LWFlY2MtNjQyOTk4Y2UxNjUzJmRldmljZWlkPTAmaW1zaT1VTktOT1dOJm1hYz1hYzo5ZToxNzoxMDplNToxYiZvc3Zlcj00LjMmcGxhdGZvcm09YW5kcm9pZCZhcHB2ZXI9Ni4zLjQmbmV0PVdJRkkmYW5kcm9pZF9pZD1mOTQ0MTcxNGNiMTU3YzcmbWFya2V0aWQ9bGVub3ZvJnJlc2xldmVsPTMmcmVzb2x1dGlvbj0xMjgweDcyMCZpbWVpPTM1NzAwMjA2NDczMDAyNiZtYW51ZmFjdHVyZXI9YXN1cyZhcHBfdmVyPTI2JmRtb2RlbD1BU1VTX1QwMEoiLCJUSElSRFNUQSI6IiIsIlZJREVPSURTIjoiYWxsIiwiREVTQ1JJUFRJT04iOiIiLCJUSElSRENMSUNLIjoiIiwiSUNPTiI6IiIsIlBBUkFNUyI6Im9yZGVyaWQ9NzY3MSZvcmRlclByb2R1Y3Q9MjUyOCIsIkNVU1RPTV9TSE9XIjoiIiwiVFlQRSI6IkJJTkRBUFAiLCJZX0lDT04iOiIiLCJBUFBfTkFNRSI6IuS7iuaXpeWktOadoS5hcGsifX0sIklGTFlURUtfRVhJVCI6eyJUWVBFIjoiSUZMWVRFS19FWElUIiwiUFJJT1JJVFkiOiIwIiwiTElWRVRJTUUiOiI2MDAiLCJFTkRUSU1FIjoiMTcwMTM2MDAwMCIsIlBBUkFNUyI6Im9yZGVyaWQ9NzUzNCIsIkNVU1RPTV9TSE9XIjoiIiwiTUFSS0VUIjoiIiwiQ1VTVE9NX0NMSUNLIjoiIiwiREFZX05VTSI6IjAifSwiQURJTUFHRSI6e30sIkNPTlRFTlRfQUQiOnt9LCJBRE1PQl9CQU5ORVIiOnt9LCJMT0FESU5HX1ZJREVPIjp7fSwiSUZMWVRFS19QUkVJTlNFUlQiOnsiVFlQRSI6IklGTFlURUtfUFJFSU5TRVJUIiwiUFJJT1JJVFkiOiIwIiwiVklERU9JRFMiOiJhbGwiLCJEQVlfTlVNIjoiMCIsIkVORFRJTUUiOiIxNTE0MzA0MDAwIiwiUEFSQU1TIjoib3JkZXJpZD03NjQyIiwiQ1VTVE9NX1NIT1ciOiIiLCJNQVJLRVQiOiIzNjBzanpzLDkxc2p6cyxhbnpodW8sYW56aGksdGVuZ3h1bix4aWFvbWksbGlhbnhpYW5nLHlvdW1lbmcsZ3VnZSx5aW5neW9uZ2h1aSxqaWZlbmcsaHVhd2VpLHlvdXlpLGJhaWR1LHlpZG9uZyxtdW1heWksb3BwbyxhbGl5dW4sc291Z291LGJhaWR1dHVhbmdvdSx0ZXN0LGRvcG9vbCx5aW5neW9nbmJhbyx3YW5kb3VqaWEs6ZW/6Jm5IiwiQ1VTVE9NX0NMSUNLIjoiIiwiT1JERVJJRCI6Ijc2NDIifSwiQkFOTkVSX1YyIjp7IkhEVF9CQU5ORVIiOnsiTE9DQVRJT04iOiIiLCJVU0VSX0NMSyI6IiIsIkRVUkFUSU9OIjoiMTAiLCJMT0NBVElPTl9UWVBFIjoiMCIsIk1BUktFVCI6IiIsIlBSSU9SSVRZIjoiMyIsIlBBUkFNUyI6Im9yZGVyaWQ9NzAyMyIsIlZJREVPSURTIjoiYWxsIiwiUEFDS0FHRV9OQU1FIjoiIiwiUE9TSVRJT04iOiIwIiwiSUNPTiI6IiIsIkhEVF9UUyI6IiIsIlNIT1dJRFMiOiIiLCJUSElSRF9DTEsiOiIiLCJVU0VSX0lNUCI6IiIsIlRISVJEX0lNUCI6IiJ9fSwiSERUX0JBTk5FUiI6eyJNQVJLRVQiOiIiLCJQUklPUklUWSI6IjMiLCJWSURFT0lEUyI6ImFsbCIsIkNVU1RPTV9TSE9XIjoiMCIsIlBPU0lUSU9OIjoiMCIsIkRVUkFUSU9OIjoiMTAiLCJQQVJBTVMiOiJvcmRlcmlkPTcwMjMiLCJTSE9XSURTIjoiIiwiVFlQRSI6IkhEVF9CQU5ORVIiLCJDVVNUT01fQ0xJQ0siOiIwIiwiREFZX05VTSI6IjAifSwiU1RBVElTVFVSTCI6Imh0dHA6XC9cL2FkLmRvcG9vbC5jb21cL2FkXC9BZHZcL2FwaS5waHAiLCJBRENISU5BX0JBTk5FUiI6e30sIkxPR08iOnt9LCJTVEFSVExPQURJTkciOnsiUFJJT1JJVFkiOiIwIiwiTE9DQVRJT05fVFlQRSI6IjAiLCJUSElSRENMSUNLIjoiIiwiQURUWVBFIjoic3RhcnRsb2FkaW5nIiwiRlVMTFNDUkVFTl9DTElDSyI6IjEiLCJNQVJLRVQiOiIiLCJMT0NBVElPTiI6IiIsIlRISVJEU1RBIjoiIiwiVFlQRSI6IlNUQVJUTE9BRElORyIsIkRBWV9OVU0iOiIwIiwiRFVSQVRJT04iOiIzIiwiSUNPTiI6Imh0dHA6XC9cL2ltZy5kb3Bvb2wuY29tXC9QdWJsaWNcL1VwbG9hZHNcL2FkaW1hZ2VzXC81NmE1Yjg2NWFkNjA3LmpwZyIsIlBBUkFNUyI6Im9yZGVyaWQ9NzY5OCZvcmRlclByb2R1Y3Q9MjU1NSIsIkNVU1RPTV9TSE9XIjoiIiwiRU5EVElNRSI6IjE0NTQ3NzQ0MDAiLCJDVVNUT01fQ0xJQ0siOiIiLCJDTE9TRSI6IjEifSwiTE9BRElOR19GUkVRVUVOQ1kiOiIwIiwiTUNBU19MT0FESU5HIjp7fX19';
+},
+noAds:function(){
+alert('noads')
+},
+sendAdData:function(dataApi,eventName,adParams){
+console.log(dataApi+'--'+eventName+'--'+adParams);
+},
+getCurrentPlay:function(){
+   return '{"screen":"598.0X360.0","params":{"videoId":"365","videoType":"1"},"name":"ActivePlayerViewController"}'
+},
+showAds:function(show){
+  alert(show)
+},
+getIflyTek:function(){
+  return 'undefined'; 
+}
+}
+*/
+
+
+//var api_url="http://test.adapi.starschina.com/Adv/api.php";
+var api_url="http://adapi.starschina.com/ad/Adv/api.php";
+var dataApi="http://ad-data.starschina.com";
+
+
+var myDate = new Date();
+var year=myDate.getFullYear();
+var month=myDate.getMonth();
+var day=myDate.getDate();
+var adDate=year+'-'+month+'-'+day;
+var adJsonData={};
+var thirdTrack={};
+var show_time;
+var clientParams={};
+var crontab_lock=true;
+var waitTime=15;
+var duration=5*60;
+var hdtlock;
+var $ = function (selector) {
+    var obj;
+    var isclass=false;
+    var str=selector.substr(1);
+    if(selector.indexOf(".")>=0){
+        isclass=true;
+        obj=document.getElementsByClassName(str);
+    }else{
+        obj=document.getElementById(str);
+    }
+    //console.log(obj)
+    var jquery={
+        "val":function(){
+            if(arguments[0]!=undefined){
+                obj.value=arguments[0];
+            }
+            return obj.value;
+        },
+        "attr":function(){
+            if(arguments.length>1){
+                obj.setAttribute(arguments[0],arguments[1])
+            }
+            return obj.getAttribute(arguments[0]);
+        },
+        "css":function(){
+            if(isclass){
+                for (var i = 0; i < obj.length; i++) {
+                    if(arguments.length==2){
+                        obj[i].style[arguments[0]]=arguments[1]
+                    }
+                };
+                return obj[0].style[arguments[0]];
+            }else{
+                if(arguments.length==2){
+                    obj.style[arguments[0]]=arguments[1]
+                }
+                return obj.style[arguments[0]];
+            }
+        },
+        "html":function(){
+            if(arguments[0]!=undefined){
+                obj.innerHTML=arguments[0];
+            }
+            return obj.innerHTML;
+
+        }
+    }
+    return jquery;   
+}
+
+//后台功能,用于前台背景控制
+var AdJsServerController = {
+    //adpage: ADPag对象
+    //session: 该页面的唯一标示
+    mainFunction : function(){  
+       
+        var adpage=JSON.parse(AdInterface.getCurrentPlay());
+        var info=this.common.getItem("phoneInfo")
+        if(info==undefined){
+            info=AdInterface.getPhoneInfo();
+            this.common.setItem("phoneInfo",info);
+        }
+
+        clientParams=eval("("+info+")");
+
+        var name=adpage['name'];
+        var params=name!='SearchViewController'?adpage['params']:{}
+        var ad_screen=adpage['screen'].split('X');
+        clientParams['width']=ad_screen[0];
+        clientParams['height']=ad_screen[1];
+
+        var allads=AdInterface.getDataCache("allads");
+        if(typeof(allads)=="string" && allads!="undefined"){
+            var allads=JSON.parse(allads);
+            AdJsServerController.getadData(allads);
+            AdInterface.setDataCache("allads","undefined");
+        }
+        if(name=="DownloadPlayView"){
+            return false;
+        }else{
+            this.getBanner(name,params);
+        }
+    },
+    setClientPramUrl:function(){
+        var url=new Array();
+        for (var key in clientParams) {
+            url.push(key+"="+encodeURIComponent(clientParams[key]));
+        };
+        return url.join("&");
+    },
+    getadData:function(str){
+        var time=new Date();
+        var timeExpires=time.getTime().toString();
+        //loading 广告
+        loadData={'loading':[]}; 
+        if(Object.prototype.toString.call(str['DATA']['LOADING'])=='[object Object]'){
+            
+            for (var key in str['DATA']['LOADING']) {
+                str['DATA']['LOADING'][key]['ORDERID']=key;
+                str['DATA']['LOADING'][key]['PARAMS']=this.paramsToJson(str['DATA']['LOADING'][key]['PARAMS']);
+                loadData['loading'].push(str['DATA']['LOADING'][key]);
+            };
+        }
+        if(str['DATA']['CHANGCEVIDEO']['ORDERID']!=undefined){
+            loadData['loading'].push(str['DATA']['CHANGCEVIDEO'])
+        }
+        loadData['adchina']=str['DATA']['ADCHINA'];
+        loadData['adchina_video']=str['DATA']['ADCHINA_VIDEO'];
+        loadData['adtouch']=str['DATA']['ADTOUCH'];
+        loadData['admob']=str['DATA']['ADMOB']; 
+        loadData['bailin_loading']=str['DATA']['BAILIN_LOADING'];
+        this.common.setItem('loading',JSON.stringify(loadData));
+        this.common.setItem('loading_expires',timeExpires);
+        this.common.setItem('loading_index',"0");
+
+
+        //开机图广告
+        if(Object.prototype.toString.call(str['DATA']['STARTLOADING'])=='[object Object]'){
+            if(str['DATA']['STARTLOADING']['ICON']!=undefined){
+                var resData=str['DATA']['STARTLOADING'];
+                resData['STATISTURL']=str['DATA']['STATISTURL']
+                this.common.setItem('startloading',JSON.stringify(resData));
+            }
+        }
+        
+        var resData=str['DATA'];
+    
+        var bannerData=new Array();
+        var dopool_banner={};
+        if(!this.isEmpty(resData['BANNER_V2']) && Object.prototype.toString.call(resData['BANNER_V2'])=='[object Object]'){
+            
+            for (var key in resData['BANNER_V2']) {
+                resData['BANNER_V2'][key]['ORDERID']=key;
+                resData['BANNER_V2'][key]['PARAMS']=this.paramsToJson(resData['BANNER_V2'][key]['PARAMS']);
+                bannerData.push(resData['BANNER_V2'][key]);
+            };
+        }
+        dopool_banner['type']='banner';
+        dopool_banner['data']=bannerData;
+        this.common.setItem('banner',JSON.stringify(dopool_banner));
+        this.common.setItem('banner_expires',timeExpires);
+        this.common.setItem('banner_index',"0");
+    },
+    paramsToJson:function(params){
+        var data = params.split("&");
+        var res = {};
+        for(var i=0, iLoop = data.length; i<iLoop; i++)
+        {
+            var tmp = data[i].split("=");
+            res[tmp[0]] = tmp[1];
+        }
+        return res;
+    },
+   checkDayNum:function(data,index,adDate){
+        var dayNum=this.common.getItem("dayNum");
+        var res=true;
+        if(typeof(dayNum)=="string" && dayNum!=="undefined"){
+            var dayNumObj=JSON.parse(dayNum);
+            if(typeof(dayNumObj[adDate])!=="undefined"){
+                var orderDayNum=dayNumObj[adDate][data[index]['ORDERID']];
+                if(orderDayNum!=="undefined" && data[index]['DAY_NUM']>0 && orderDayNum>=data[index]['DAY_NUM']){
+                    res=true;
+                }else{
+                    res=false;
+                }
+            }else{
+                var dayNumStr='{"'+adDate+'":{}}';
+                this.common.setItem("dayNum",dayNumStr);
+                res=false;
+            }
+        }else{
+            var dayNumStr='{"'+adDate+'":{}}';
+            this.common.setItem("dayNum",dayNumStr);
+            res=false;
+        }
+        return res;
+    },
+   
+    getBanner:function(name,params){
+        
+        var ad=false;
+        var data=this.common.getItem("banner");
+        var banner_expires=this.common.getItem("banner_expires");
+        var videoType=params.videoType;
+        var viewId=(videoType=='0' || videoType=='11')?'vod':params.videoId;
+        var now=new Date().getTime();
+        var dif=banner_expires!==undefined?now-banner_expires:0;
+        var urlParams=this.setClientPramUrl();
+        if(name=='ActivePlayerViewController'){
+            var viewType='VIDEOIDS';
+        }else if(name=='ColumnHomeViewController'){
+            var viewType='SHOWIDS';
+        }else{
+             var viewType='VIDEOIDS';
+        }
+        var searchView=name=='SearchViewController'?true:false;
+        if(data===null || data===undefined || dif>1000*60*30){
+            var url=api_url+"?a=getallads&"+urlParams;
+            var res=AdInterface.getApi(url,'get','','',5);
+            if(typeof(res)=="string" && res.indexOf("CODE")==-1){
+                var str=eval("("+Base64.decode(res)+")");
+
+                if(str!=undefined && str['CODE']==='SUCCESS'){
+                    AdJsServerController.getadData(str);
+                    data=this.common.getItem("banner");
+                }else{
+                    var timeExpires=time.getTime().toString();
+                    this.common.setItem('banner_expires',timeExpires);
+                    this.common.removeItem('banner');
+                }
+            }        
+        }
+    
+        if(data!==undefined && data!==null){
+
+            if(typeof(data)=='string'){
+                data=JSON.parse(data);
+            }
+            if(data['data'].length>0){
+                var banner=data['data'];
+                var length=data['data'].length;
+                var index=0;
+                var banner_index=typeof(this.common.getItem("banner_index"))=='string'?parseInt(this.common.getItem("banner_index")):undefined;
+                if(banner_index>=length || banner_index==undefined){
+                    index=0;
+                }else{
+                    index=banner_index;
+                }
+                var tmp_index=index;
+                var orderId=0;
+                var indexArr=new Array();
+                var b_index=0;
+                for(var i =index; i <length; i++){
+                    if(viewType!==undefined){
+                        var viewIds=','+banner[i][viewType]+',';
+                        var excludevideoids=banner[i]['EXCLUDE']!=undefined?','+banner[i]['EXCLUDE']+',':"";
+                        if(viewIds.indexOf(','+viewId+',')!==-1 || (banner[i][viewType]=='all' && excludevideoids.indexOf(','+viewId+',')==-1)){
+                            try 
+                            {
+                                var isInstall=ADJsClientController.isAppInstalled(banner[i]['PACKAGE_NAME'])
+                                if(isInstall){
+                                    continue;
+                                }
+                            }catch(e){
+                            }
+                            //判断是否满足每日点击
+                            if(AdJsServerController.checkDayNum(banner,i,adDate)){
+                                continue;
+                            }
+                            if(orderId===0){
+                                orderId=banner[i]['ORDERID'];
+                                index=parseInt(i)+1;
+                                b_index=i;
+                                this.common.setItem('banner_index',index.toString());
+                            }
+                        }
+                    }
+                }
+                if(orderId==0 && tmp_index>0){
+                    for (var j = 0; j < tmp_index; j++) {
+                        if(viewType!==undefined){
+                            var viewIds=','+banner[j][viewType]+',';
+
+                            var excludevideoids=banner[j]['EXCLUDE']!=undefined?','+banner[j]['EXCLUDE']+',':"";
+                            if(viewIds.indexOf(','+viewId+',')!==-1 || (banner[j][viewType]=='all' && excludevideoids.indexOf(','+viewId+',')==-1)){
+
+                                try
+                                {
+                                    var isInstall=ADJsClientController.isAppInstalled(banner[i]['PACKAGE_NAME'])
+                                    if(isInstall){
+                                        continue;
+                                    }
+                                }catch(e){
+                                }
+                                //判断是否满足每日点击
+                                if(AdJsServerController.checkDayNum(banner,j,adDate)){
+                                    continue;
+                                }
+                                if(orderId===0){
+                                    orderId=banner[j]['ORDERID'];
+                                    index=parseInt(j)+1;
+                                    b_index=j
+                                    this.common.setItem('banner_index',index.toString());
+                                }
+                            }
+                        }
+                    }
+                }
+                if(orderId!==0){
+                    if(orderId=="ADMOB_BANNER"){
+                        //展示触控banner
+                        ad={
+                            "type":"admob_banner",
+                            "timeout":banner[b_index]['DURATION'],
+                            "params":banner[b_index]['PARAMS'],
+                        }
+                        ad['dataApi']=dataApi;
+                        ad['params']['videoid']=params['videoId'];
+                        AdInterface.showAds(JSON.stringify(ad));
+                        return true;
+                    }else if(orderId=="TOUCH_BANNER"){
+                        //展示触控banner
+                        ad={
+                            "type":"changceBanner",
+                            "timeout":"10",
+                            "params":banner[b_index]['PARAMS'],
+                        }
+                        ad['dataApi']=dataApi;
+                        ad['params']['videoid']=params['videoId'];
+                        AdInterface.showAds(JSON.stringify(ad));
+                        return true;
+                    }
+                    banner[b_index]['PARAMS']['videoid']=params['videoId'];
+                    adJsonData=banner[b_index];
+                    var location=banner[b_index]['LOCATION'];
+                    var location_type=banner[b_index]['LOCATION_TYPE'];
+                    var app_name="";
+                    var app_iscancel="0";
+                    var lomark_ts="";
+                    var lomark_tc="";
+                    if(adJsonData['PARAMS']['lomark_ts']!=undefined){
+                        lomark_ts=Base64.decode(adJsonData['PARAMS']['lomark_ts']);
+                        delete adJsonData['PARAMS']['lomark_ts'];
+                    }
+                    if(location!="" && location != undefined){
+                        var aQuery = location.split("?");  //取得Get参数
+                        var aGet = new Array();
+                        if(aQuery.length > 1)
+                        {
+                            var aBuf = aQuery[1].split("&");
+                            for(var i=0, iLoop = aBuf.length; i<iLoop; i++)
+                            {
+                                var aTmp = aBuf[i].split("=");  //分离key与Value
+                                aGet[aTmp[0]] = aTmp[1];
+                            }
+                        }
+                        if(location_type=="0"){
+                            location=decodeURIComponent(aGet['location']);
+                            lomark_tc=aGet['lomark_tc']!=undefined?Base64.decode(aGet['lomark_tc']):"";
+                        }else{
+                            location=decodeURIComponent(aGet['app_url']);
+                            app_name=aGet['app_url_name'];
+                            app_iscancel=aGet['app_iscancel'];
+                        }
+                    }
+                    adJsonData['LOCATION']=location;
+                    adJsonData['LOCATION_TYPE']=location_type;
+                    adJsonData['APP_NAME']=app_name;
+                    adJsonData['APP_ISCANCEL']=app_iscancel;
+                    adJsonData['lomark_ts']=lomark_ts;
+                    adJsonData['lomark_tc']=lomark_tc;
+                    ad=adJsonData;
+                    ad['dataApi']=dataApi;
+                    ad['type']='banner';
+                    //AdInterface.showAds(JSON.stringify(ad));
+                    this.init();
+                }else{
+                    AdInterface.noAds();
+                }
+            }
+            
+        }
+        return ad;
+    },
+    isEmpty:function(obj){
+        for (var name in obj){
+            return false;
+        }
+        return true;
+    },
+    common:{
+        "getItem":function(key){
+            var info=AdInterface.getPhoneInfo()
+            info=JSON.parse(info);
+            var app_ver=info['app_ver']!=undefined?info['app_ver']:info['appver'];;
+            key=app_ver+"_"+key;
+            var res;
+            if(typeof(AdInterface)!="undefined" && "setDataCache" in AdInterface){
+                res=AdInterface.getDataCache(key)
+                if(res=="undefined"){
+                    res=undefined;
+                }
+            }else{
+                res=localStorage.getItem(key);
+            }
+            return res;
+        },
+        "setItem":function(key,value){
+            var info=AdInterface.getPhoneInfo()
+            info=JSON.parse(info);
+            var app_ver=info['app_ver']!=undefined?info['app_ver']:info['appver'];;
+            key=app_ver+"_"+key;
+            if(typeof(AdInterface)!="undefined" && "setDataCache" in AdInterface){
+                res=AdInterface.setDataCache(key,value);
+            }else{
+                res=localStorage.setItem(key,value);
+            }
+        },
+        "removeItem":function(key){
+            var info=AdInterface.getPhoneInfo()
+            info=JSON.parse(info);
+            var app_ver=info['app_ver']!=undefined?info['app_ver']:info['appver'];;
+            key=app_ver+"_"+key;
+            if(typeof(AdInterface)!="undefined" && "setDataCache" in AdInterface){
+                AdInterface.removeDataCache(key);
+            }else{
+                localStorage.removeItem(key);
+            }
+        }
+    },
+
+    init:function() {
+    
+        var data=this.common.getItem("banner");
+        var width=clientParams['width'];
+        $("#con_div").css('height',(parseInt(clientParams['height'])/8)+"px");
+        $("#con_div").css('width',parseInt(clientParams['height'])/8*6+"px");
+        $("#close_img").css('width',parseInt(clientParams['height'])/8/3+"px");
+        $("#close_img").css('height',parseInt(clientParams['height'])/8/3+"px");
+        data=JSON.parse(data);
+        var showData=data.data;
+        var hdt="";
+        if(adJsonData['ORDERID']=='HDT_BANNER'){
+            try{
+                hdt=AdInterface.getHdtData();
+                hdt=hdt.replace(/\n/g, "");
+                if(hdt!=""){
+                    var hdtData=this.hdtInfo(JSON.parse(hdt),width)
+                    if(hdtData!==false){
+                        adJsonData['ICON']=hdtData['icon'];
+                        adJsonData['LOCATION']=hdtData['location'];
+                        adJsonData['USER_IMP']=hdtData['um_imp']==undefined?"":hdtData['um_imp'];
+                        adJsonData['USER_CLK']=hdtData['um_clk']==undefined?"":hdtData['um_clk'];
+                        adJsonData['THIRD_IMP']=hdtData['tm_imp']==undefined?"":hdtData['tm_imp'];
+                        adJsonData['THIRD_CLK']=hdtData['tm_clk']==undefined?"":hdtData['tm_clk'];
+                        adJsonData['HDT_TS']=hdtData['sm_imp']==undefined?"":hdtData['sm_imp'];
+                        adJsonData['SM_CLK']=hdtData['sm_clk']==undefined?"":hdtData['sm_clk'];
+                        adJsonData=adJsonData;
+                    }else{
+                        adJsonData['ICON']="";
+                    }
+                }else{
+                    adJsonData['ICON']="";
+                }
+            }catch(e){
+                adJsonData['ICON']="";
+            }
+        }
+        if(adJsonData['ORDERID']=='ADCHINA_BANNER'){
+            var adchinaData=adJsonData['DATA'];
+            adJsonData['ICON']=adchinaData['mtr'][0]['url'];
+            adJsonData['LOCATION']=adchinaData['cu'];   
+            if(adchinaData['tracking']!=undefined && adchinaData['tracking'].length>0){
+                for(x in adchinaData['tracking'] ){
+                    if(adchinaData['tracking'][x]['et']=='33'){
+                        thirdTrack['adchina_banner_third_show']=adchinaData['tracking'][x]['tku'];
+                    }else if(adchinaData['tracking'][x]['et']=='34'){
+                        thirdTrack['adchina_banner_third_click']=adchinaData['tracking'][x]['tku'];
+                    }
+                }
+            }
+            thirdTrack['adchina_banner_show']=adchinaData['btu']+"&et=33";
+            thirdTrack['adchina_banner_click']=adchinaData['btu']+"&et=34&pst=20%2c30";
+        }
+        var icon=adJsonData['ICON'];
+        if(icon!=undefined && icon!=""){
+
+            var html=(icon.indexOf('html')==-1)?0:1;
+            show_time=adJsonData['DURATION'];
+            if(html==1){
+                $("#iframe").css('display','block');
+                $("#iframeDiv").css('display','block');
+                $("#iframe").attr('src',decodeURIComponent(icon));
+            }else{
+                $("#iframe").css('display','none');
+                $("#iframeDiv").css('display','none');
+                $("#ad_img").attr('src',icon);
+            }
+            
+            //AdJsServerController.adexposure(adJsonData['PARAMS']);
+            $("#close").css("display",'block');
+            $("#orderid").val(adJsonData['ORDERID']);
+            //$("#order_params").val(JSON.stringify(adJsonData['PARAMS']));
+
+            //if(!crontab_lock){
+                AdJsServerController.startShow()
+            //}
+
+        }else{
+            setTimeout(function(){AdJsServerController.mainFunction();},1000*duration);
+        }
+
+        //var data=BaseAdInterface.getDataCache("banner");
+        //showad(data,index,clientParams);
+            
+    },
+
+    hdtInfo:function(hdt,width){
+        var now=new Date().getTime();
+        var hdtInfo={"icon":"","location":""};
+        var advalidity=hdt['advalidity'];
+
+        var year=advalidity.substring(0,4);
+        var month=advalidity.substring(4,6);
+        var date=advalidity.substring(6,8);
+        advalidity=year+","+month+","+date;
+        var expires=new Date(advalidity).getTime();
+        expires=expires+1000*60*60*24;
+        if(now>expires){
+            return false;
+        }
+        for(img_index in hdt['img']['urls']){
+            if(hdtInfo['icon']=="" && hdt['img']['urls'][img_index]['width']==width && hdt['img']['urls'][img_index]['value']!=""){
+                hdtInfo['icon']=hdt['img']['dld_base']+hdt['img']['urls'][img_index]['value'];
+            }
+        }
+        if(hdtInfo['icon']==""){
+            hdtInfo['icon']=hdt['img']['dld_base']+hdt['img']['urls'][3]['value'];
+        }
+
+        for(i in hdt['clk']['urls']){
+            if(hdt['clk']['urls'][i]['value']!=""){
+                hdtInfo['location']=hdt['clk']['urls'][i]['value'];
+            }
+        }
+        for(i in hdt['tracks']){
+            var key=hdt['tracks'][i]['type'];
+            var val=hdt['tracks'][i]['url'];
+            if(val.indexOf("\n")>0){
+                val=val.substr(0,val.indexOf("\n"));
+            }
+            if(key=='sm_imp'){
+                hdtInfo['sm_imp']=val;
+            }else if(key=='sm_clk'){
+                hdtInfo['sm_clk']=val;
+            }else if(key=='um_imp'){
+                hdtInfo['um_imp']=val;
+            }else if(key=='um_clk'){
+                hdtInfo['um_clk']=val;
+            }else if(key=='tm_imp'){
+                hdtInfo['tm_imp']=val;
+            }else if(key=='tm_clk'){
+                hdtInfo['tm_clk']=val;
+            }
+        }
+        return hdtInfo;
+    },
+    closeImg:function(){
+        //var adParams=$("#order_params").val();
+        var adParams=adJsonData['PARAMS'];
+        var now=new Date().getTime();
+        AdInterface.sendAdData(dataApi,'ad_close',JSON.stringify(adParams));
+        if(hdtlock==true){
+            setTimeout(AdJsServerController.thirdClick(),1);
+        }
+        AdInterface.hide()
+    },
+    closeBanner:function()
+    {
+        return function()
+        {
+            AdInterface.hide()
+        }
+    },
+    downloadapp:function(){
+        var cloud = arguments[0]?arguments[0]:0;
+        var url=adJsonData['LOCATION']
+        var app_name=adJsonData['APP_NAME']
+        var app_iscancel=adJsonData['APP_ISCANCEL']
+        var location_type=adJsonData['LOCATION_TYPE']
+        if(url==""){
+            return false;
+        }
+        if(adJsonData['lomark_tc']!=undefined){
+            AdJsServerController.sendUrl(adJsonData['lomark_tc']);
+        }
+        //var adParams=$("#order_params").val()
+        var adParams=adJsonData['PARAMS'];
+
+        var now=new Date().getTime();
+        if($("#user_clk").val()!=''){
+            var user_clk=$("#user_clk").val();
+            var rand=Math.ceil(Math.random()*100000000);
+            user_clk=user_clk.replace('[rnd]',rand);
+            this.sendUrl(user_clk);
+        }
+        if($("#third_clk").val()!=''){
+            var third_clk=$("#third_clk").val();
+            var rand=Math.ceil(Math.random()*100000000);
+            third_clk=third_clk.replace('[rnd]',rand);
+            this.sendUrl(third_clk);
+        }
+        if($("#sm_clk").val()!=''){
+            var sm_clk=$("#sm_clk").val();
+            var rand=Math.ceil(Math.random()*100000000);
+            sm_clk=sm_clk.replace('[rnd]',rand);
+            this.sendUrl(sm_clk);
+        }
+        if(thirdTrack['adchina_click']!=undefined){
+            var script = document.createElement('script');
+            script.src = thirdTrack['adchina_click']
+            document.body.appendChild(script);
+        }
+        
+        if(thirdTrack['click']!=undefined){
+            for(x in thirdTrack['click']){
+                var script = document.createElement('script');
+                script.src = thirdTrack['click'][x]
+                document.body.appendChild(script);
+            }
+        }
+
+
+        if(thirdTrack['adchina_click']!=undefined ){
+            AdInterface.sendAdData(dataApi,'adclick',JSON.stringify(adParams));
+        }
+
+        if(thirdTrack['adchina_banner_click']!=undefined){
+            var script = document.createElement('script');
+            script.src = thirdTrack['adchina_banner_click']
+            document.body.appendChild(script);
+        }
+
+        if(thirdTrack['adchina_banner_third_click']!=undefined){
+            for(x in thirdTrack['adchina_banner_third_click']){
+                var script = document.createElement('script');
+                script.src = thirdTrack['adchina_banner_third_click'][x]
+                document.body.appendChild(script);
+            }
+        }
+        if(thirdTrack['adchina_click']!=undefined || thirdTrack['adchina_banner_click']!=undefined){
+             AdInterface.sendAdData(dataApi,'adclick',JSON.stringify(adParams));
+        }
+        var orderid=$("#orderid").val()
+
+        if(orderid=='HDT_BANNER'){
+            AdInterface.sendAdData(dataApi,'adclick',JSON.stringify(adParams));
+        }
+        //单设备每日点击次数
+        dayNum=this.common.getItem("dayNum");
+        if(typeof(dayNum)=="string" && dayNum!=="undefined"){
+            var dayNumObj=JSON.parse(dayNum);
+            if(typeof(dayNumObj[adDate][orderid])!=="undefined"){
+                dayNumObj[adDate][orderid]+=1
+            }else{
+                dayNumObj[adDate][orderid]=1;
+            }
+            this.common.setItem("dayNum",JSON.stringify(dayNumObj));
+        }else{
+            var dayNumObj={}
+            dayNumObj[adDate][orderid]=1;
+            this.common.setItem("dayNum",JSON.stringify(dayNumObj));
+        }
+        if(location_type==="0" ){
+            if(orderid!='adchina' && orderid!='HDT_BANNER' && orderid!='ADCHINA_BANNER'){
+                AdInterface.sendAdData(dataApi,'adclick',JSON.stringify(adParams));
+                this.openUrl(url,cloud)
+            }else{
+                this.openUrl(url,cloud)
+            }
+        }else{
+            AdInterface.sendAdData(dataApi,'adclick',JSON.stringify(adParams));
+            if(cloud===0){
+                if(app_iscancel=='1'){
+                    AdInterface.forcedDownloadApp(url,app_name);
+                }else{
+                    AdInterface.downloadApp(url,app_name);
+                }
+            }
+            
+        }
+        if(cloud===0){
+            AdInterface.hide()
+        }
+    },
+    openUrl:function(url,cloud){
+        if(cloud>0){
+            this.sendUrl(url);
+        }else{
+            AdInterface.openNewTablet('',url,20000*1);    
+        }
+    },
+    adexposure:function(adParams){
+        var now=new Date().getTime();
+        if(adParams['thirdshow']!=undefined){
+            thirdShow=window.atob(adParams['thirdshow']);
+            this.sendUrl(thirdShow)
+            delete adParams['thirdshow'];
+        }
+        AdInterface.sendAdData(dataApi,'adexposure',JSON.stringify(adParams));
+        if(adJsonData['lomark_ts']!=undefined){
+            AdJsServerController.sendUrl(adJsonData['lomark_ts']);
+        }
+        if(thirdTrack['adchina_show']!=undefined){
+            var script = document.createElement('script');
+            script.src = thirdTrack['adchina_show']
+            document.body.appendChild(script);
+        }
+        if(thirdTrack['show']!=undefined){
+            for(x in thirdTrack['show']){
+                var script = document.createElement('script');
+                script.src = thirdTrack['show'][x]
+                document.body.appendChild(script);
+                //this.sendUrl(thirdTrack['show'][x])
+            }
+        }
+    },
+    sendUrl:function(url){
+        try{
+            //$.getJSON(url)
+            var script = document.createElement('script');
+            script.src = url;
+            document.body.appendChild(script);
+        }catch(e){
+            //console.log(e.message());
+        }
+    },
+    setTimer:function(timer){
+        $("#timer").html(timer);
+        if(timer>0){
+            setTimeout(AdJsServerController._timer(timer),1000);
+        }else{
+            AdInterface.hide()
+        }
+    },
+
+    _timer:function(timer)
+    {
+        return function()
+        {
+            AdJsServerController.setTimer(timer-1);
+        }
+    },
+    thirdClick:function(){
+        return function(){
+            var now=new Date().getTime();
+            if(adJsonData['USER_CLK']!=''){
+                var user_clk=adJsonData['USER_CLK'];
+                var rand=Math.ceil(Math.random()*100000000);
+                user_clk=user_clk.replace('[rnd]',rand);
+                AdJsServerController.sendUrl(user_clk);
+            }
+            if(adJsonData['THIRD_CLK']!=''){
+                var third_clk=adJsonData['THIRD_CLK'];
+                var rand=Math.ceil(Math.random()*100000000);
+                third_clk=third_clk.replace('[rnd]',rand);
+                AdJsServerController.sendUrl(third_clk);
+
+            }
+            if(adJsonData['SM_CLK']!=''){
+                var sm_clk=adJsonData['SM_CLK'];
+                var rand=Math.ceil(Math.random()*100000000);
+                sm_clk=sm_clk.replace('[rnd]',rand);
+                AdJsServerController.sendUrl(sm_clk);
+            }
+
+            //setClientPramUrl(clientParams);
+            //var adParams=$("#order_params").val()
+            var adParams=adJsonData['PARAMS'];
+            AdInterface.sendAdData(dataApi,'adclick',JSON.stringify(adParams));
+
+            var url=$("#ad_location").val();
+            hdtlock=false;
+            AdJsServerController.sendUrl(url);
+        }
+    },
+    startShow:function(){
+
+            if(crontab_lock){
+                setTimeout(function(){AdJsServerController.startShow()},1000*waitTime);
+                crontab_lock=false;
+            }else{
+                AdJsServerController.adexposure(adJsonData['PARAMS']);
+                AdInterface.show();
+                crontab_lock=true;
+                waitTime=duration;
+                //console.log('duration--'+show_time);
+                setTimeout(AdJsServerController.closeBanner(),1000*show_time);
+                setTimeout(function(){AdJsServerController.mainFunction();},1000*show_time);
+            
+                var bannerOrderId=adJsonData['ORDERID'];
+                if(bannerOrderId=='ADCHINA_BANNER'){
+                    if(thirdTrack['adchina_banner_third_show']!=undefined){
+                        this.sendUrl(thirdTrack['adchina_banner_third_show']);
+                    }
+                    if(thirdTrack['adchina_banner_show']!=undefined){
+                        this.sendUrl(thirdTrack['adchina_banner_show']);
+                    }
+                }else if(bannerOrderId=='HDT_BANNER'){
+                    
+                    if(adJsonData['HDT_TS'] !=undefined && adJsonData['HDT_TS']!=''){
+                        var hdt_ts=adJsonData['HDT_TS'];
+                        var rand=Math.ceil(Math.random()*100000000);
+                        hdt_ts=hdt_ts.replace('[rnd]',rand);
+                        this.sendUrl(hdt_ts)
+                    }
+                    if(adJsonData['USER_IMP']!=''){
+                        var user_imp=adJsonData['USER_IMP'];
+                        var rand=Math.ceil(Math.random()*100000000);
+                        user_imp=user_imp.replace('[rnd]',rand);
+                        this.sendUrl(user_imp)
+                    }
+                    if(adJsonData['USER_CLK']!=''){ 
+                        $("#user_clk").val(adJsonData['USER_CLK']);
+                    }
+                    if(adJsonData['THIRD_IMP']!=''){
+                        var third_imp=adJsonData['THIRD_IMP'];
+                        var rand=Math.ceil(Math.random()*100000000);
+                        third_imp=third_imp.replace('[rnd]',rand);
+                        this.sendUrl(third_imp)
+                    }
+                    if(adJsonData['THIRD_CLK']!=''){
+                        $("#third_clk").val(adJsonData['THIRD_CLK']);
+                    }
+                    if(adJsonData['SM_CLK']!=''){
+                        $("#sm_clk").val(adJsonData['SM_CLK']);
+                    }
+                    var rand=Math.ceil(Math.random()*1000)
+                    if(rand<=4){
+                        ctime=Math.floor(Math.random()*show_time)
+                        if(ctime<3){
+                            ctime=3;
+                        }else if(ctime>(show_time-3)){
+                            ctime=show_time-3;
+                        }
+                        hdtlock=true;
+                        setTimeout(AdJsServerController.thirdClick(),1000*ctime);
+                    }
+                }else{
+                    var hdt="";
+                    var custom_show=adJsonData['CUSTOM_SHOW']==undefined?0:adJsonData['CUSTOM_SHOW'];
+                    var custom_click=adJsonData['CUSTOM_CLICK']==undefined?0:adJsonData['CUSTOM_CLICK'];
+                    var adexParams=adJsonData['PARAMS'];
+                    if(custom_show>0){
+                        var rand=Math.ceil(Math.random()*1000)
+                        if(rand<=custom_show){
+                            //ctime=Math.floor(Math.random()*show_time)
+                            ctime=1;
+                            setTimeout(function(){AdJsServerController.adexposure(adexParams,clientParams)},1000*ctime);
+                        }
+                    }
+                    if(custom_click>0){
+                        var rand=Math.ceil(Math.random()*1000)
+                        if(rand<=custom_click){
+                            //ctime=Math.floor(Math.random()*show_time)
+                            ctime=1;
+                            setTimeout(function(){AdJsServerController.downloadapp(1)},1000*ctime);
+                        }
+                    }
+                }
+            }
+    }
+        
+}
+var Base64 = {
+    // private property
+    _keyStr : "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",
+ 
+    // public method for encoding
+    encode : function (input) {
+        var output = "";
+        var chr1, chr2, chr3, enc1, enc2, enc3, enc4;
+        var i = 0;
+ 
+        input = Base64._utf8_encode(input);
+ 
+        while (i < input.length) {
+ 
+            chr1 = input.charCodeAt(i++);
+            chr2 = input.charCodeAt(i++);
+            chr3 = input.charCodeAt(i++);
+ 
+            enc1 = chr1 >> 2;
+            enc2 = ((chr1 & 3) << 4) | (chr2 >> 4);
+            enc3 = ((chr2 & 15) << 2) | (chr3 >> 6);
+            enc4 = chr3 & 63;
+ 
+            if (isNaN(chr2)) {
+                enc3 = enc4 = 64;
+            } else if (isNaN(chr3)) {
+                enc4 = 64;
+            }
+            output = output +
+            this._keyStr.charAt(enc1) + this._keyStr.charAt(enc2) +
+            this._keyStr.charAt(enc3) + this._keyStr.charAt(enc4);
+ 
+        }
+        return output;
+    },
+    // public method for decoding
+    decode : function (input) {
+        var output = "";
+        var chr1, chr2, chr3;
+        var enc1, enc2, enc3, enc4;
+        var i = 0;
+        input = input.replace(/[^A-Za-z0-9\+\/\=]/g, "");
+        while (i < input.length) {
+            enc1 = this._keyStr.indexOf(input.charAt(i++));
+            enc2 = this._keyStr.indexOf(input.charAt(i++));
+            enc3 = this._keyStr.indexOf(input.charAt(i++));
+            enc4 = this._keyStr.indexOf(input.charAt(i++));
+ 
+            chr1 = (enc1 << 2) | (enc2 >> 4);
+            chr2 = ((enc2 & 15) << 4) | (enc3 >> 2);
+            chr3 = ((enc3 & 3) << 6) | enc4;
+            output = output + String.fromCharCode(chr1);
+            if (enc3 != 64) {
+                output = output + String.fromCharCode(chr2);
+            }
+            if (enc4 != 64) {
+                output = output + String.fromCharCode(chr3);
+            }
+        }
+        output = Base64._utf8_decode(output);
+        return output;
+    },
+    // private method for UTF-8 encoding
+    _utf8_encode : function (string) {
+        string = string.replace(/\r\n/g,"\n");
+        var utftext = "";
+        for (var n = 0; n < string.length; n++) {
+            var c = string.charCodeAt(n);
+            if (c < 128) {
+                utftext += String.fromCharCode(c);
+            }
+            else if((c > 127) && (c < 2048)) {
+                utftext += String.fromCharCode((c >> 6) | 192);
+                utftext += String.fromCharCode((c & 63) | 128);
+            }
+            else {
+                utftext += String.fromCharCode((c >> 12) | 224);
+                utftext += String.fromCharCode(((c >> 6) & 63) | 128);
+                utftext += String.fromCharCode((c & 63) | 128);
+            }
+        }
+        return utftext;
+    },
+ 
+    // private method for UTF-8 decoding
+    _utf8_decode : function (utftext) {
+        var string = "";
+        var i = 0;
+        var c = c1 = c2 = 0;
+        while ( i < utftext.length ) {
+            c = utftext.charCodeAt(i);
+            if (c < 128) {
+                string += String.fromCharCode(c);
+                i++;
+            }
+            else if((c > 191) && (c < 224 )) {
+                c2 = utftext.charCodeAt(i+1);
+                string += String.fromCharCode(((c & 31) << 6) | (c2 & 63));
+                i += 2;
+            }
+            else {
+                c2 = utftext.charCodeAt(i+1);
+                c3 = utftext.charCodeAt(i+2);
+                string += String.fromCharCode(((c & 15) << 12) | ((c2 & 63) << 6) | (c3 & 63));
+                i += 3;
+            }
+        }
+        return string;
+    }
+}
+
+AdJsServerController.mainFunction();
+</script>
+</html>
+

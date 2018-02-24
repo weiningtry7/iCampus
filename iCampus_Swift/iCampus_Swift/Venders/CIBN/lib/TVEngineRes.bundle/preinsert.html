@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"> 
+<meta name="viewport" content="height=device-height,initial-scale=1, maximum-scale=1">
+<title></title>
+
+<!-- <script src="adController_android.js"></script> -->
+<style type="text/css">
+* { padding:0; margin:0;}
+body{
+margin:0px auto;
+}
+.poster {
+    vertical-align:middle;
+    width:100%;
+    max-height:100%;
+    max-width:100%;
+    height:100%;
+}
+.con_div{
+width: 100%;
+text-align:center;
+vertical-align:middle;
+color:#000;
+}
+.iframeDiv{
+position:absolute;
+filter:alpha(Opacity=80);
+z-index:100;
+width:100%;
+height:100%;
+}
+.float_div{
+position:absolute;
+float:right;
+z-index:100;
+width:75px;
+height:75px;
+right:0;
+top:0;
+background-image:url(http://ad-cache.dopool.com/ad/AdSale/html_api/bg_video_ad_timer.png);
+}
+.vip_div{
+position:absolute;
+float:right;
+z-index:100;
+width:75px;
+height:75px;
+right:0;
+top:0;
+margin-right: 75px;
+}
+.vip_con{   
+position:absolute;
+z-indent:2;
+left:0;
+top:0;
+}
+.close_div{
+position:absolute;
+float:right;
+z-index:100;
+right:0;
+top:0;
+text-align: right;
+}
+.back{
+position:absolute;
+float:left;
+z-index:100;
+left:0;
+top:0;
+}
+.timer{
+color:#fff;    
+position:absolute;
+z-indent:2;
+left:0;
+top:0;
+}
+
+</style>
+</head>
+<body onload="AdJsServerController.startShow()">
+    <div class="con_div" id="con_div">
+        <div id="close" class="close_div">
+                <img id="close_img" onclick="AdJsServerController.closeImg()" src="http://ad-cache.dopool.com/ad/AdSale/html_api/close.png">
+        </div>
+        <div onclick="AdJsServerController.downloadapp()" id="iframeDiv" class="iframeDiv" style="display:none;"></div>
+        <iframe id="iframe" width="100%" height="100%" style="display:none" src=""></iframe>
+        <img onclick="AdJsServerController.downloadapp()" id="ad_img" src="" class="poster" >
+        <img style="display:none" id="start_ad_img" src="" class="poster" >
+        <input id="ad_location" type="hidden" value="">
+        <input id="app_name" type="hidden" value="">
+        <input id="app_iscancel" type="hidden" value="">
+        <input id="location_type" type="hidden" value="">
+        <input id="user_imp" type="hidden" value="">
+        <input id="user_clk" type="hidden" value="">
+        <input id="third_imp" type="hidden" value="">
+        <input id="third_clk" type="hidden" value="">
+        <input id="sm_clk" type="hidden" value="">
+        <input id="orderid" type="hidden" value="">
+        <input id="order_params" type="hidden" value="">
+    </div>
+</body>
+<script>
+//测试数据
+/*
+var AdInterface = {
+getPhoneInfo:function(){
+    return '{"uuid":"FD84A665-F748-4E22-9ACE-199EDBEF1569","imsi":"","mac":"02:00:00:00:00:00","net":"WIFI","appver":"6.2.1","deviceId":"0","reslevel":3,"platform":"apple","osver":"9.2.1","manufacturer":"apple","resolution":"1242x2208","dmodel":"iPhone","app_key":"4MUAHmQFf1YR","idfa":"72D3FEE2-0D20-485F-9157-C05B90DEA689","openudid":"bcedcce7fce8a5618f68d59f2f6bb6ef24383e3a"}';
+},
+getDataCache:function(key){
+    res=localStorage.getItem(key);
+    return res;
+},
+setDataCache:function(key,value){
+    localStorage.setItem(key,value);
+
+},
+removeDataCache:function(key){
+    localStorage.removeItem(key);
+},
+dowloadApp:function(){
+
+},
+openNewTablet:function(str,url,num){
+console.log('openUrl'+url)
+},
+back:function(){
+console.log('back')
+},
+show:function(){
+console.log('show')
+},
+hide:function(){
+console.log('hide')
+},
+getHdtData:function(){
+
+},
+getApi:function(url,method,params,headers,timeout){
+return 'eyJDT0RFIjoiU1VDQ0VTUyIsIkRBVEEiOnsiQURWSUVXX0VYSVRQTEFZIjp7IlZJREVPSURTIjoiYWxsIiwiVFlQRSI6IkFEVklFV19FWElUUExBWSIsIlBSSU9SSVRZIjoiMCIsIlBBUkFNUyI6Im9yZGVyaWQ9NzQ3MSIsIkNVU1RPTV9TSE9XIjoiIiwiQ1VTVE9NX0NMSUNLIjoiIiwiTUFSS0VUIjoiIiwiREFZX05VTSI6IjAifSwiTE9BRElORyI6e30sIldPUkQiOnt9LCJUSElSRFJFQ09NTUVORCI6e30sIkJBSUxJTl9MT0FESU5HIjp7fSwiQURDSElOQSI6e30sIkFEVE9VQ0giOnt9LCJBRE1PQiI6eyJNQVJLRVQiOiIiLCJQUklPUklUWSI6IjMiLCJWSURFT0lEUyI6ImFsbCIsIkNVU1RPTV9TSE9XIjoiIiwiUEFSQU1TIjoib3JkZXJpZD03NjU5IiwiRFVSQVRJT04iOiIxNSIsIkNVU1RPTV9DTElDSyI6IiIsIlRZUEUiOiJBRE1PQiIsIkRBWV9OVU0iOiIwIn0sIkxPTUFSS19JTlNDUkVFTiI6e30sIkJJTkRBUFAiOnsiNzY3MSI6eyJDVVNUT01fQ0xJQ0siOiIiLCJQQUNLQUdFX05BTUUiOiJjb20uc3MuYW5kcm9pZC5hcnRpY2xlLm5ld3MiLCJEQVlfTlVNIjoiMCIsIklTX0lOU1RBTEwiOiIxIiwiQVBQU0laRSI6IiIsIlhfSUNPTiI6IiIsIk1BUktFVCI6IiIsIkxPQ0FUSU9OIjoiaHR0cDpcL1wvYWQuZG9wb29sLmNvbVwvYWRcL0FkU2FsZVwvQ2xpXC9hZERhdGFBcGkucGhwP2FkY2F0ZWdvcmllcz0wMDImYXBwX3VybF9uYW1lPeS7iuaXpeWktOadoS5hcGsuYXBrJmFwcF91cmw9aHR0cCUzQSUyRiUyRmFwcC5zdGFyc2NoaW5hLmNvbSUyRmFkJTJGamlucml0b3V0aWFvJTJGTmV3c0FydGljbGUuYXBrJmFwcF9pc2NhbmNlbD0wJm9yZGVyaWQ9NzY3MSZjbGllbnRfaXA9MTA2LjIuMjEzLjQyJmFwcF9rZXk9NE1VQUhtUUZmMVlSJnV1aWQ9ZmIxNDk3ZGUtNzlhYi0zMDM4LWFlY2MtNjQyOTk4Y2UxNjUzJmRldmljZWlkPTAmaW1zaT1VTktOT1dOJm1hYz1hYzo5ZToxNzoxMDplNToxYiZvc3Zlcj00LjMmcGxhdGZvcm09YW5kcm9pZCZhcHB2ZXI9Ni4zLjQmbmV0PVdJRkkmYW5kcm9pZF9pZD1mOTQ0MTcxNGNiMTU3YzcmbWFya2V0aWQ9bGVub3ZvJnJlc2xldmVsPTMmcmVzb2x1dGlvbj0xMjgweDcyMCZpbWVpPTM1NzAwMjA2NDczMDAyNiZtYW51ZmFjdHVyZXI9YXN1cyZhcHBfdmVyPTI2JmRtb2RlbD1BU1VTX1QwMEoiLCJUSElSRFNUQSI6IiIsIlZJREVPSURTIjoiYWxsIiwiREVTQ1JJUFRJT04iOiIiLCJUSElSRENMSUNLIjoiIiwiSUNPTiI6IiIsIlBBUkFNUyI6Im9yZGVyaWQ9NzY3MSZvcmRlclByb2R1Y3Q9MjUyOCIsIkNVU1RPTV9TSE9XIjoiIiwiVFlQRSI6IkJJTkRBUFAiLCJZX0lDT04iOiIiLCJBUFBfTkFNRSI6IuS7iuaXpeWktOadoS5hcGsifX0sIklGTFlURUtfRVhJVCI6eyJUWVBFIjoiSUZMWVRFS19FWElUIiwiUFJJT1JJVFkiOiIwIiwiTElWRVRJTUUiOiI2MDAiLCJFTkRUSU1FIjoiMTcwMTM2MDAwMCIsIlBBUkFNUyI6Im9yZGVyaWQ9NzUzNCIsIkNVU1RPTV9TSE9XIjoiIiwiTUFSS0VUIjoiIiwiQ1VTVE9NX0NMSUNLIjoiIiwiREFZX05VTSI6IjAifSwiQURJTUFHRSI6e30sIkNPTlRFTlRfQUQiOnt9LCJBRE1PQl9CQU5ORVIiOnt9LCJMT0FESU5HX1ZJREVPIjp7fSwiSUZMWVRFS19QUkVJTlNFUlQiOnsiVFlQRSI6IklGTFlURUtfUFJFSU5TRVJUIiwiUFJJT1JJVFkiOiIwIiwiVklERU9JRFMiOiJhbGwiLCJEQVlfTlVNIjoiMCIsIkVORFRJTUUiOiIxNTE0MzA0MDAwIiwiUEFSQU1TIjoib3JkZXJpZD03NjQyIiwiQ1VTVE9NX1NIT1ciOiIiLCJNQVJLRVQiOiIzNjBzanpzLDkxc2p6cyxhbnpodW8sYW56aGksdGVuZ3h1bix4aWFvbWksbGlhbnhpYW5nLHlvdW1lbmcsZ3VnZSx5aW5neW9uZ2h1aSxqaWZlbmcsaHVhd2VpLHlvdXlpLGJhaWR1LHlpZG9uZyxtdW1heWksb3BwbyxhbGl5dW4sc291Z291LGJhaWR1dHVhbmdvdSx0ZXN0LGRvcG9vbCx5aW5neW9nbmJhbyx3YW5kb3VqaWEs6ZW/6Jm5IiwiQ1VTVE9NX0NMSUNLIjoiIiwiT1JERVJJRCI6Ijc2NDIifSwiQkFOTkVSX1YyIjp7IkhEVF9CQU5ORVIiOnsiTE9DQVRJT04iOiIiLCJVU0VSX0NMSyI6IiIsIkRVUkFUSU9OIjoiMTAiLCJMT0NBVElPTl9UWVBFIjoiMCIsIk1BUktFVCI6IiIsIlBSSU9SSVRZIjoiMyIsIlBBUkFNUyI6Im9yZGVyaWQ9NzAyMyIsIlZJREVPSURTIjoiYWxsIiwiUEFDS0FHRV9OQU1FIjoiIiwiUE9TSVRJT04iOiIwIiwiSUNPTiI6IiIsIkhEVF9UUyI6IiIsIlNIT1dJRFMiOiIiLCJUSElSRF9DTEsiOiIiLCJVU0VSX0lNUCI6IiIsIlRISVJEX0lNUCI6IiJ9fSwiSERUX0JBTk5FUiI6eyJNQVJLRVQiOiIiLCJQUklPUklUWSI6IjMiLCJWSURFT0lEUyI6ImFsbCIsIkNVU1RPTV9TSE9XIjoiMCIsIlBPU0lUSU9OIjoiMCIsIkRVUkFUSU9OIjoiMTAiLCJQQVJBTVMiOiJvcmRlcmlkPTcwMjMiLCJTSE9XSURTIjoiIiwiVFlQRSI6IkhEVF9CQU5ORVIiLCJDVVNUT01fQ0xJQ0siOiIwIiwiREFZX05VTSI6IjAifSwiU1RBVElTVFVSTCI6Imh0dHA6XC9cL2FkLmRvcG9vbC5jb21cL2FkXC9BZHZcL2FwaS5waHAiLCJBRENISU5BX0JBTk5FUiI6e30sIkxPR08iOnt9LCJTVEFSVExPQURJTkciOnsiUFJJT1JJVFkiOiIwIiwiTE9DQVRJT05fVFlQRSI6IjAiLCJUSElSRENMSUNLIjoiIiwiQURUWVBFIjoic3RhcnRsb2FkaW5nIiwiRlVMTFNDUkVFTl9DTElDSyI6IjEiLCJNQVJLRVQiOiIiLCJMT0NBVElPTiI6IiIsIlRISVJEU1RBIjoiIiwiVFlQRSI6IlNUQVJUTE9BRElORyIsIkRBWV9OVU0iOiIwIiwiRFVSQVRJT04iOiIzIiwiSUNPTiI6Imh0dHA6XC9cL2ltZy5kb3Bvb2wuY29tXC9QdWJsaWNcL1VwbG9hZHNcL2FkaW1hZ2VzXC81NmE1Yjg2NWFkNjA3LmpwZyIsIlBBUkFNUyI6Im9yZGVyaWQ9NzY5OCZvcmRlclByb2R1Y3Q9MjU1NSIsIkNVU1RPTV9TSE9XIjoiIiwiRU5EVElNRSI6IjE0NTQ3NzQ0MDAiLCJDVVNUT01fQ0xJQ0siOiIiLCJDTE9TRSI6IjEifSwiTE9BRElOR19GUkVRVUVOQ1kiOiIwIiwiTUNBU19MT0FESU5HIjp7fX19';
+},
+noAds:function(){
+alert('noads')
+},
+sendAdData:function(dataApi,eventName,adParams){
+console.log(dataApi+'--'+eventName+'--'+adParams);
+},
+getCurrentPlay:function(){
+   return '{"screen":"598.0X360.0","params":{"videoId":"368","videoType":"1"},"name":"ActivePlayerViewController"}'
+},
+showAds:function(show){
+  alert(show)
+},
+getIflyTek:function(){
+  //return '{"rc":70200,"info_en":"success","info_cn":"广告请求成功","matype":"meta","batch_cnt":1,"batch_ma":[{"adtype":"redirect","title":"京东年欢惠，品质保障！","landing_url":"http://ccc.x.jd.com/dsp/nc?ext=Y2xpY2sudW5pb24uamQuY29tL0pkQ2xpY2svP3VuaW9uSWQ9MzI2NDE4NDU3JnNpdGVpZD0yMDc5NDRfMTQxNCZ1dG10ZXJtX2V4dD1wXzE0MTQmdG89aHR0cDovL3JlLm0uamQuY29tL2xpc3QvaXRlbS84NzctMjIxNzkyNi5odG1sP3JlX2RjcD00NDh4cDdrdlJwQTNoUDBQQ3NXQUNHSTRzNzd6TDZIdGo5N0RFZ0dfd3VCWUtXTWI1YkxyYm5rZmo2dk9RVUNtbEZ2eTRGQUdEcE5YYWJkOXpqWkhwUkwtcEJHR0VNbEtZQ2dyOHJhZENvRE1XQ25fOUs4NVViT1FaWGJBQlVIbDhMdmJiQ2FiOWtMazBMTzZmbU02VHR2ejB4MXBOQnVuakhtendzS0QmdXRtdGVybV9leHQ9cF8xNDE0JmNwY19wYXJhbXM9WTJGelpVbGtPakl3TXdwdFlYUkpaRG93Q21OVmJtbHZia2xrT2lJaUNuQnliMGxrT2pZd0NuQnNZVzVKWkRvd0NuTnBkR1ZKWkRvek56STFPREV4TXpJS2QyVmlkSGx3WlRvaVYwd2lDbVYxYVdRNklpSUtjRzl6YVhScGIyNUpaRG95TURNPQ==&log=hLVJbkbVxQ66JVYVWIE76hVmEQjF-FYwXc1X-rNkfH3FerL-hSQjvnaUudnKGkSP56iL0jregMyV9nWlOcE0y5UYA42MyuyWx1uMvNY1xHRuSqGBN6nAb6Zoxx9SWGyQ5rzI1Yo3TR3wVRKQuIW9BVDURXac0R_LOr2havP-3hrh3_J6WhNrccyTFhe5KPYHIHTvZAj098qvG6kKru8o3BJ9rHLPy2m0BScIjFwI37xNaq2eF3fWXIhRBB0Fg2GKkByibDp49gbOPUlt8XPC2ngc9md-QFUCUj55V-2NJTGEGpzURRGfS9anJuFR_w-q1So9_1kpPuBrY2eyQ7dtiChSNJBmIWhLHoD8_iiFYJZPzdyAOoixsmeUh1R8EwGF2JfQ9gufq14Ke1UDoNkBIP_09PJ3LLFGugUI45mV5U58DFw7SZHPm2wQgnJY9pV0qWZ9S1tL69ElJGCFinCVbiFaqqiI-jTZJNExQC-71xcmJWpthtHn4Hy_15vAUL2h&v=505","image":"http://img11.360buyimg.com/n1/s600x500_jfs/t1924/37/1683084344/42443/36ffcc1a/5667c964Na0f548ad.jpg","impr_url":["http://x.jd.com/dsp/np?log=hLVJbkbVxQ66JVYVWIE76hVmEQjF+FYwXc1X+rNkfH3FerL+hSQjvnaUudnKGkSP56iL0jregMyV9nWlOcE0y5UYA42MyuyWx1uMvNY1xHRuSqGBN6nAb6Zoxx9SWGyQ5rzI1Yo3TR3wVRKQuIW9BVDURXac0R/LOr2havP+3hrh3/J6WhNrccyTFhe5KPYHIHTvZAj098qvG6kKru8o3C5ZZkr+3bm8gHxqkDaZ6153eivLC16DF7/vT1AY5CtadQ6ycX1tFcZnZOSiSyE8D3h9Pdn++26RncU4MnijNpZCO2ZHT+CdT1dRGJA4qSmw84knTmcNLSLnGSpUcbW+WNu2E57/k/JfJVxOUjQdzBhAYs57WtaZc7QNYZA85jBcmodrPau+Q8NHqBFp3nu9fbsrhecSYmmuCZfYDnQhclHu7qMceDTZCuxHoWdVfXK8KzfldUOoi1B4BmcYe76gQb+8/OJNZJNP/iVtRZt4qxKcRZxd6Q/Z3f5xqtX1ok74&v=404&seq=1","http://bj.imp.voiceads.cn/ad/impress?impressId=ed8377ce-a7fd-44e1-af72-d0de156ee713-1454553511119&traceId=89a9f188-5858-4b83-baa7-289e2e94e541"],"click_url":["http://bj.imp.voiceads.cn/ad/click?clickId=ed8377ce-a7fd-44e1-af72-d0de156ee713-1454553511119&traceId=89a9f188-5858-4b83-baa7-289e2e94e541"]}]}'; 
+},
+}
+*/
+var api_url="http://adapi.starschina.com/ad/Adv/api.php";
+//var api_url="http://test.adapi.starschina.com/Adv/api.php";
+var dataApi="http://ad-data.starschina.com";
+//科大讯飞
+var iflyApi="http://ws.voiceads.cn/ad/request";
+var iflyAid="00510F891E51FBD9336E68C4122FBC39";
+var iflyAppId="56b212bf";
+
+
+var minAppver='6.3';
+var appver;
+var myDate = new Date();
+var year=myDate.getFullYear();
+var month=myDate.getMonth();
+var day=myDate.getDate();
+var adDate=year+'-'+month+'-'+day;
+var adInfo;
+var thirdTrack={};
+var show_time;
+var win_width=300;
+var win_height=250;
+var devWidth;
+var devHeight;
+var predata={};
+
+var $ = function (selector) {
+    var obj;
+    var isclass=false;
+    var str=selector.substr(1);
+    if(selector.indexOf(".")>=0){
+        isclass=true;
+        obj=document.getElementsByClassName(str);
+    }else{
+        obj=document.getElementById(str);
+    }
+    //console.log(obj)
+    var jquery={
+        "val":function(){
+            if(arguments[0]!=undefined){
+                obj.value=arguments[0];
+            }
+            return obj.value;
+        },
+        "attr":function(){
+            if(arguments.length>1){
+                obj.setAttribute(arguments[0],arguments[1])
+            }
+            return obj.getAttribute(arguments[0]);
+        },
+        "css":function(){
+            if(isclass){
+                for (var i = 0; i < obj.length; i++) {
+                    if(arguments.length==2){
+                        obj[i].style[arguments[0]]=arguments[1]
+                    }
+                };
+                return obj[0].style[arguments[0]];
+            }else{
+                if(arguments.length==2){
+                    obj.style[arguments[0]]=arguments[1]
+                }
+                return obj.style[arguments[0]];
+            }
+        },
+        "html":function(){
+            if(arguments[0]!=undefined){
+                obj.innerHTML=arguments[0];
+            }
+            return obj.innerHTML;
+
+        }
+    }
+    return jquery;   
+}
+
+//后台功能,用于前台背景控制
+var AdJsServerController = {
+    //adpage: ADPag对象
+    //session: 该页面的唯一标示
+    mainFunction : function(){
+        var adpage=JSON.parse(AdInterface.getCurrentPlay());
+        var info=this.common.getItem("phoneInfo")
+        if(info==undefined){
+            info=AdInterface.getPhoneInfo()
+            this.common.setItem("phoneInfo",info);
+        }
+
+        var clientParams=eval("("+info+")");
+        appver=clientParams['appver'];
+        var name=adpage['name'];
+        var params=name!='SearchViewController'?adpage['params']:{}
+        var ad_screen=adpage['screen'].split('X');
+        devWidth=clientParams['width']=ad_screen[0];
+        devHeight=clientParams['height']=ad_screen[1];
+        win_height=ad_screen[1]*(3/4);
+        win_width=win_height*(1.2);
+        var allads=AdInterface.getDataCache("allads");
+        if(typeof(allads)=="string" && allads!="undefined"){
+            var allads=JSON.parse(allads);
+            AdJsServerController.getadData(allads);
+            AdInterface.setDataCache("allads","undefined");
+        }
+        var loading_ad=this.getPreinsert(clientParams,name,params);
+        //console.log(loading_ad)
+        if(loading_ad!=false){
+        }else{
+            //AdInterface.noAds();
+            //AdInterface.hide();
+        }
+        /*if(type=='contentad'){
+            this.getContentAd(session,clientParams);
+        }*/
+    },
+    setClientPramUrl:function(clientParams){
+        var url=new Array();
+        for (var key in clientParams) {
+            url.push(key+"="+encodeURIComponent(clientParams[key]));
+        }
+        return url.join("&");
+    },
+    getadData:function(str){
+        var time=new Date();
+        var timeExpires=time.getTime().toString();
+        //前插屏广告
+        var preInsertData=new Array();
+        if(Object.prototype.toString.call(str['DATA']['ADVIEW_PREINSERT'])=='[object Object]'  && str['DATA']['ADVIEW_PREINSERT']['PARAMS']!=undefined){
+            str['DATA']['ADVIEW_PREINSERT']['ORDERID']='adview_preinsert';
+            str['DATA']['ADVIEW_PREINSERT']['PARAMS']=this.paramsToJson(str['DATA']['ADVIEW_PREINSERT']['PARAMS']);
+            preInsertData.push(str['DATA']['ADVIEW_PREINSERT']);
+        }
+        if(Object.prototype.toString.call(str['DATA']['IFLYTEK_PREINSERT'])=='[object Object]' && str['DATA']['IFLYTEK_PREINSERT']['PARAMS']!=undefined ){
+            str['DATA']['IFLYTEK_PREINSERT']['ORDERID']='iflytek_preinsert';
+            str['DATA']['IFLYTEK_PREINSERT']['PARAMS']=this.paramsToJson(str['DATA']['IFLYTEK_PREINSERT']['PARAMS']);
+            preInsertData.push(str['DATA']['IFLYTEK_PREINSERT']);
+        }
+        this.common.setItem('preinsert',JSON.stringify({"type":"preinsert","data":preInsertData}));
+        this.common.setItem('preinsert_expires',timeExpires);
+        this.common.setItem('preinsert_index',"0");
+
+        //loading 广告
+        loadData={'loading':[]}; 
+        if(Object.prototype.toString.call(str['DATA']['LOADING'])=='[object Object]'){
+            for (var key in str['DATA']['LOADING']) {
+                str['DATA']['LOADING'][key]['ORDERID']=key;
+                str['DATA']['LOADING'][key]['PARAMS']=this.paramsToJson(str['DATA']['LOADING'][key]['PARAMS']);
+                loadData['loading'].push(str['DATA']['LOADING'][key]);
+            }
+        }
+        if(str['DATA']['CHANGCEVIDEO']!=undefined && str['DATA']['CHANGCEVIDEO']['ORDERID']!=undefined){
+            loadData['loading'].push(str['DATA']['CHANGCEVIDEO'])
+        }
+        loadData['adchina']=str['DATA']['ADCHINA'];
+        loadData['adchina_video']=str['DATA']['ADCHINA_VIDEO'];
+        loadData['adtouch']=str['DATA']['ADTOUCH'];
+        loadData['admob']=str['DATA']['ADMOB'];
+        loadData['bailin_loading']=str['DATA']['BAILIN_LOADING'];
+        this.common.setItem('loading',JSON.stringify(loadData));
+        this.common.setItem('loading_expires',timeExpires);
+        this.common.setItem('loading_index',"0");
+
+
+        //开机图广告
+        if(Object.prototype.toString.call(str['DATA']['STARTLOADING'])=='[object Object]'){
+            if(str['DATA']['STARTLOADING']['ICON']!=undefined){
+                var resData=str['DATA']['STARTLOADING'];
+                resData['STATISTURL']=str['DATA']['STATISTURL']
+                this.common.setItem('startloading',JSON.stringify(resData));
+            }
+        }
+        
+        var resData=str['DATA'];
+        var bannerData=new Array();
+        var dopool_banner={};
+        if(!this.isEmpty(resData['BANNER_V2']) && Object.prototype.toString.call(resData['BANNER_V2'])=='[object Object]'){
+            
+            for (var key in resData['BANNER_V2']) {
+                resData['BANNER_V2'][key]['ORDERID']=key;
+                resData['BANNER_V2'][key]['PARAMS']=this.paramsToJson(resData['BANNER_V2'][key]['PARAMS']);
+                bannerData.push(resData['BANNER_V2'][key]);
+            };
+        }
+        dopool_banner['type']='banner';
+        dopool_banner['data']=bannerData;
+        this.common.setItem('banner',JSON.stringify(dopool_banner));
+        this.common.setItem('banner_expires',timeExpires);
+        this.common.setItem('banner_index',"0");
+
+    },
+    paramsToJson:function(params){
+        var data = params.split("&");
+        var res = {};
+        for(var i=0, iLoop = data.length; i<iLoop; i++)
+        {
+            var tmp = data[i].split("=");
+            res[tmp[0]] = tmp[1];
+        }
+        return res;
+    },
+    checkDayNum:function(data,index,adDate){
+        var dayNum=this.common.getItem("dayNum");
+        var res=true;
+        if(typeof(dayNum)=="string" && dayNum!=="undefined"){
+            var dayNumObj=JSON.parse(dayNum);
+            if(typeof(dayNumObj[adDate])!=="undefined"){
+                var orderDayNum=dayNumObj[adDate][data[index]['ORDERID']];
+                if(orderDayNum!=="undefined" && data[index]['DAY_NUM']>0 && orderDayNum>=data[index]['DAY_NUM']){
+                    res=true;
+                }else{
+                    res=false;
+                }
+            }else{
+                var dayNumStr='{"'+adDate+'":{}}';
+                this.common.setItem("dayNum",dayNumStr);
+                res=false;
+            }
+        }else{
+            var dayNumStr='{"'+adDate+'":{}}';
+            this.common.setItem("dayNum",dayNumStr);
+            res=false;
+        }
+        return res;
+    },
+    getPreinsert:function(clientParams,name,params){
+        
+        var ad=false;
+        var data=this.common.getItem("preinsert");
+        var preinsert_expires=this.common.getItem("preinsert_expires");
+        var videoType=params.videoType;
+        console.log(params)
+        var viewId=(videoType=='0' || videoType=='11')?'vod':params.videoId;
+        var now=new Date().getTime();
+        var dif=preinsert_expires!==undefined?now-preinsert_expires:0;
+        var urlParams=this.setClientPramUrl(clientParams);
+        if(name=='ActivePlayerViewController'){
+            var viewType='VIDEOIDS';
+        }else if(name=='ColumnHomeViewController'){
+            var viewType='SHOWIDS';
+        }else{
+             var viewType='VIDEOIDS';
+        }
+        var searchView=name=='SearchViewController'?true:false;
+        if(data===null || data===undefined || dif>1000*60*30){
+            var url=api_url+"?a=getallads&"+urlParams;
+            var res=AdInterface.getApi(url,'get','','',5);
+            if(typeof(res)=="string" && res.indexOf("CODE")==-1){
+                var str=eval("("+Base64.decode(res)+")");
+
+                if(str!=undefined && str['CODE']==='SUCCESS'){
+                    AdJsServerController.getadData(str);
+                    data=this.common.getItem("preinsert");
+                }else{
+                    this.common.removeItem('preinsert');
+                }
+            }        
+        }
+    
+        if(data!==undefined && data!==null){
+
+            if(typeof(data)=='string'){
+                data=JSON.parse(data);
+            }
+            console.log(data);
+            if(data['data'].length>0){
+                var preinsert=data['data'];
+                var length=data['data'].length;
+                var index=0;
+                var preinsert_index=typeof(this.common.getItem("preinsert_index"))=='string'?parseInt(this.common.getItem("preinsert_index")):undefined;
+                if(preinsert_index>=length || preinsert_index==undefined){
+                    index=0;
+                }else{
+                    index=preinsert_index;
+                }
+                var tmp_index=index;
+                var orderId=0;
+                var indexArr=new Array();
+                var b_index=0;
+                for(var i =index; i <length; i++){
+                    if(viewType!==undefined){
+                        var viewIds=','+preinsert[i][viewType]+',';
+                        var excludevideoids=preinsert[i]['EXCLUDE']!=undefined?','+preinsert[i]['EXCLUDE']+',':"";
+                        if(viewIds.indexOf(','+viewId+',')!==-1 || (preinsert[i][viewType]=='all' && excludevideoids.indexOf(','+viewId+',')==-1)){
+                            try 
+                            {
+                                var isInstall=ADJsClientController.isAppInstalled(preinsert[i]['PACKAGE_NAME'])
+                                if(isInstall){
+                                    continue;
+                                }
+                            }catch(e){
+                            }
+                            if(orderId===0){
+                                orderId=preinsert[i]['ORDERID'];
+                                index=parseInt(i)+1;
+                                b_index=i;
+                                this.common.setItem('preinsert_index',index.toString());
+                            }
+                        }
+                    }
+                }
+                if(orderId==0 && tmp_index>0){
+                    for (var j = 0; j < tmp_index; j++) {
+                        if(viewType!==undefined){
+                            var viewIds=','+preinsert[j][viewType]+',';
+
+                            var excludevideoids=preinsert[j]['EXCLUDE']!=undefined?','+preinsert[j]['EXCLUDE']+',':"";
+                            if(viewIds.indexOf(','+viewId+',')!==-1 || (preinsert[j][viewType]=='all' && excludevideoids.indexOf(','+viewId+',')==-1)){
+
+                                try
+                                {
+                                    var isInstall=ADJsClientController.isAppInstalled(preinsert[i]['PACKAGE_NAME'])
+                                    if(isInstall){
+                                        continue;
+                                    }
+                                }catch(e){
+                                }
+                                //判断是否满足每日点击
+                                if(AdJsServerController.checkDayNum(preinsert,j,adDate)){
+                                    continue;
+                                }
+                                if(orderId===0){
+                                    orderId=preinsert[j]['ORDERID'];
+                                    index=parseInt(j)+1;
+                                    b_index=j
+                                    this.common.setItem('preinsert_index',index.toString());
+                                }
+                            }
+                        }
+                    }
+                }
+                if(orderId!==0){
+                    if(orderId=="adview_preinsert"){
+                        //展示触控preinsert
+                        ad={
+                            "type":"adview_preinsert",
+                            "timeout":preinsert[b_index]['DURATION'],
+                            "params":preinsert[b_index]['PARAMS'],
+                        }
+                        ad['dataApi']=dataApi;
+                        AdInterface.showAds(JSON.stringify(ad));
+                    }
+                    if(orderId=='iflytek_preinsert'){
+                        preinsert[b_index]['PARAMS']['videoid']=viewId;
+                        
+                        //var ifly=AdInterface.getIflyTek();
+                        var ifly =AdJsServerController.getIflyTek();
+                        ifly=JSON.parse(ifly);
+                        if(ifly['rc']!=undefined && ifly['rc']=='70200'){
+                            predata['icon']=ifly['batch_ma'][0]['image'];
+                            predata['location']=ifly['batch_ma'][0]['landing_url'];
+                            predata['location_type']=ifly['batch_ma'][0]['adtype']=='redirect'?0:1;
+                            predata['impr_url']=ifly['batch_ma'][0]['impr_url'];
+                            predata['click_url']=ifly['batch_ma'][0]['click_url'];
+                            predata['orderid']='iflytek_preinsert';
+                            predata['params']=preinsert[b_index]['PARAMS'];
+                            this.init(predata);
+                        }else{
+                            AdInterface.noAds();
+                            return true;
+                        }
+
+                    }
+                }else{
+                    AdInterface.noAds();
+                    return true;
+                }
+            }
+            
+        }
+        return ad;
+    },
+    getIflyTek:function(){
+        var info=AdInterface.getPhoneInfo()
+        info=JSON.parse(info);
+        //获取时间戳
+        var myDate = new Date();
+        var time=parseInt(myDate.getTime()/1000);
+        //获取网络信息
+        var net=info['net'].toUpperCase();
+        var inet=2;
+        if(net=='WIFI'){
+            inet=2;
+        }else if(net=='3G'){
+            inet=5;
+        }else if(net=='4G'){
+            inet=6;
+        }
+
+        var headers={"X-protocol-ver":"2.0"};
+        //ios没有pkgname,ua,ip
+        var params={
+            "adunitid": iflyAid,
+            "appid": iflyAppId,
+            "orientation": "1",
+            "devicetyp": "0",
+            "appname": "dopool",
+            "adw": "500",
+            "adh": "600",
+            "batch_cnt": "1",
+            "vendor": "Apple",
+            "os": "iOS",
+            "model": info['dmodel'],
+            "osv": info['osver'],
+            "dvh": devHeight,
+            "dvw": devWidth,
+            "net": inet,
+            "idfa":info['idfa'],
+            "openudid":info['openudid'],
+            "pkgname":"com.dopool.dopTV",
+            "ts": time
+        }
+        return AdInterface.getApi(iflyApi,'post',JSON.stringify(params),JSON.stringify(headers),5);
+    },
+    isEmpty:function(obj){
+        for (var name in obj){
+            return false;
+        }
+        return true;
+    },
+    appverToNum:function(appver){
+        appver=appver.replace(".", "");
+        res=appver[0]+'.'+appver.substr(1,appver.length);
+        return parseFloat(res);
+    },
+    common:{
+        "getItem":function(key){
+            var info=AdInterface.getPhoneInfo()
+            info=JSON.parse(info);
+            var app_ver=info['app_ver']!=undefined?info['app_ver']:info['appver'];;
+            key=app_ver+"_"+key;
+            var res;
+            if(typeof(AdInterface)!="undefined" && "setDataCache" in AdInterface){
+                res=AdInterface.getDataCache(key)
+                if(res=="undefined"){
+                    res=undefined;
+                }
+            }else{
+                res=localStorage.getItem(key);
+            }
+            return res;
+        },
+        "setItem":function(key,value){
+            var info=AdInterface.getPhoneInfo()
+            info=JSON.parse(info);
+            var app_ver=info['app_ver']!=undefined?info['app_ver']:info['appver'];;
+            key=app_ver+"_"+key;
+            if(typeof(AdInterface)!="undefined" && "setDataCache" in AdInterface){
+                res=AdInterface.setDataCache(key,value);
+            }else{
+                res=localStorage.setItem(key,value);
+            }
+        },
+        "removeItem":function(key){
+            var info=AdInterface.getPhoneInfo()
+            info=JSON.parse(info);
+            var app_ver=info['app_ver']!=undefined?info['app_ver']:info['appver'];;
+            key=app_ver+"_"+key;
+            if(typeof(AdInterface)!="undefined" && "setDataCache" in AdInterface){
+                AdInterface.removeDataCache(key);
+            }else{
+                localStorage.removeItem(key);
+            }
+        }
+    },
+    closeImg:function(){
+        var adParams=predata['params'];
+        AdInterface.sendAdData(dataApi,'ad_close',JSON.stringify(adParams));
+        AdInterface.hide()
+    },
+    downloadapp:function(){
+        var cloud = arguments[0]?arguments[0]:0;
+        var url=$("#ad_location").val();
+        if(url==""){
+            return false;
+        }
+        var adParams=predata['params'];
+       
+        var location_type=$("#location_type").val();
+        if(predata['click_url']!=undefined){
+            for(var i in predata['click_url']){
+                AdInterface.getApi(predata['click_url'][i],'get','','',5);
+            }
+        }
+        var orderid=$("#orderid").val()
+        if(location_type==="0" ){
+            AdInterface.sendAdData(dataApi,'adclick',JSON.stringify(adParams));
+            AdInterface.openNewTablet('',url,20000*1);    
+        }
+        AdInterface.hide();
+    },
+    adexposure:function(adParams){
+        var now=new Date().getTime();
+        if(predata['impr_url'].length>0){
+            for(var i in predata['impr_url']){
+                AdInterface.getApi(predata['impr_url'][i],'get','','',5);
+            }
+        }
+        AdInterface.sendAdData(dataApi,'adexposure',JSON.stringify(adParams));
+    },
+    sendUrl:function(url){
+        try{
+            //$.getJSON(url)
+            var script = document.createElement('script');
+            script.src = url;
+            document.body.appendChild(script);
+        }catch(e){
+            //console.log(e.message());
+        }
+    },
+    init:function(predata) {
+        /*
+        # 展示广告图片
+        */
+    //alert(win_width+'--'+win_height);
+        $("#con_div").css('width',parseInt(win_width)+"px");
+        $("#con_div").css('height',parseInt(win_height)+"px")
+        $("#close_img").css('width',parseInt(win_height)*0.1+"px");
+        $("#close_img").css('height',parseInt(win_height)*0.1+"px");
+        
+        $("#ad_img").attr('src',predata['icon']);
+        $("#ad_location").val(predata['location']);
+
+        $("#location_type").val(predata['location_type']);
+        $("#orderid").val(predata['orderid']);
+    },
+    startShow:function(){
+        if(!predata['icon']){
+            return false;
+        }
+        /*
+        ## 上报广告展示数据
+        */
+        var adexParams=predata['params'];
+        //console.log(adexParams);
+        $("#order_params").val(JSON.stringify(adexParams));
+        AdJsServerController.adexposure(adexParams)
+        AdInterface.show();
+        
+    }
+}
+var Base64 = {
+    // private property
+    _keyStr : "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",
+ 
+    // public method for encoding
+    encode : function (input) {
+        var output = "";
+        var chr1, chr2, chr3, enc1, enc2, enc3, enc4;
+        var i = 0;
+ 
+        input = Base64._utf8_encode(input);
+ 
+        while (i < input.length) {
+ 
+            chr1 = input.charCodeAt(i++);
+            chr2 = input.charCodeAt(i++);
+            chr3 = input.charCodeAt(i++);
+ 
+            enc1 = chr1 >> 2;
+            enc2 = ((chr1 & 3) << 4) | (chr2 >> 4);
+            enc3 = ((chr2 & 15) << 2) | (chr3 >> 6);
+            enc4 = chr3 & 63;
+ 
+            if (isNaN(chr2)) {
+                enc3 = enc4 = 64;
+            } else if (isNaN(chr3)) {
+                enc4 = 64;
+            }
+            output = output +
+            this._keyStr.charAt(enc1) + this._keyStr.charAt(enc2) +
+            this._keyStr.charAt(enc3) + this._keyStr.charAt(enc4);
+ 
+        }
+        return output;
+    },
+    // public method for decoding
+    decode : function (input) {
+        var output = "";
+        var chr1, chr2, chr3;
+        var enc1, enc2, enc3, enc4;
+        var i = 0;
+        input = input.replace(/[^A-Za-z0-9\+\/\=]/g, "");
+        while (i < input.length) {
+            enc1 = this._keyStr.indexOf(input.charAt(i++));
+            enc2 = this._keyStr.indexOf(input.charAt(i++));
+            enc3 = this._keyStr.indexOf(input.charAt(i++));
+            enc4 = this._keyStr.indexOf(input.charAt(i++));
+ 
+            chr1 = (enc1 << 2) | (enc2 >> 4);
+            chr2 = ((enc2 & 15) << 4) | (enc3 >> 2);
+            chr3 = ((enc3 & 3) << 6) | enc4;
+            output = output + String.fromCharCode(chr1);
+            if (enc3 != 64) {
+                output = output + String.fromCharCode(chr2);
+            }
+            if (enc4 != 64) {
+                output = output + String.fromCharCode(chr3);
+            }
+        }
+        output = Base64._utf8_decode(output);
+        return output;
+    },
+    // private method for UTF-8 encoding
+    _utf8_encode : function (string) {
+        string = string.replace(/\r\n/g,"\n");
+        var utftext = "";
+        for (var n = 0; n < string.length; n++) {
+            var c = string.charCodeAt(n);
+            if (c < 128) {
+                utftext += String.fromCharCode(c);
+            }
+            else if((c > 127) && (c < 2048)) {
+                utftext += String.fromCharCode((c >> 6) | 192);
+                utftext += String.fromCharCode((c & 63) | 128);
+            }
+            else {
+                utftext += String.fromCharCode((c >> 12) | 224);
+                utftext += String.fromCharCode(((c >> 6) & 63) | 128);
+                utftext += String.fromCharCode((c & 63) | 128);
+            }
+        }
+        return utftext;
+    },
+ 
+    // private method for UTF-8 decoding
+    _utf8_decode : function (utftext) {
+        var string = "";
+        var i = 0;
+        var c = c1 = c2 = 0;
+        while ( i < utftext.length ) {
+            c = utftext.charCodeAt(i);
+            if (c < 128) {
+                string += String.fromCharCode(c);
+                i++;
+            }
+            else if((c > 191) && (c < 224 )) {
+                c2 = utftext.charCodeAt(i+1);
+                string += String.fromCharCode(((c & 31) << 6) | (c2 & 63));
+                i += 2;
+            }
+            else {
+                c2 = utftext.charCodeAt(i+1);
+                c3 = utftext.charCodeAt(i+2);
+                string += String.fromCharCode(((c & 15) << 12) | ((c2 & 63) << 6) | (c3 & 63));
+                i += 3;
+            }
+        }
+        return string;
+    }
+}
+
+
+
+//返回上一页
+
+
+AdJsServerController.mainFunction();
+</script>
+</html>
+
+
+

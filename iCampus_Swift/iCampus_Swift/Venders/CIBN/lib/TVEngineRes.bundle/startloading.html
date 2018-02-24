@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Access-Control-Allow-Origin" content="*">
+<meta charset="utf-8">
+<meta name="viewport" content="">
+<title></title>
+</head>
+<body>
+</body>
+<script>
+//测试数据
+/*
+var AdInterface = {
+getPhoneInfo:function(){
+    return '{"uuid":"FD84A665-F748-4E22-9ACE-199EDBEF1569","imsi":"","mac":"02:00:00:00:00:00","net":"WIFI","appver":"6.2.1","deviceId":"0","reslevel":3,"platform":"apple","osver":"9.2.1","manufacturer":"apple","resolution":"1242x2208","dmodel":"iPhone","app_key":"4MUAHmQFf1YR"}';
+},
+getDataCache:function(key){
+    res=localStorage.getItem(key);
+    return res;
+},
+setDataCache:function(key,value){
+    localStorage.setItem(key,value);
+
+},
+removeDataCache:function(key){
+    localStorage.removeItem(key);
+},
+dowloadApp:function(){
+
+},
+openNewTablet:function(str,url,num){
+console.log('openUrl'+url)
+},
+back:function(){
+console.log('back')
+},
+show:function(){
+console.log('show')
+},
+hide:function(){
+console.log('hide')
+},
+getHdtData:function(){
+
+},
+getApi:function(url,method,params,headers,timeout){
+return 'eyJDT0RFIjoiU1VDQ0VTUyIsIkRBVEEiOnsiUFJJT1JJVFkiOiIwIiwiTE9DQVRJT05fVFlQRSI6IjAiLCJEQVlfTlVNIjoiMCIsIk1BUktFVCI6IiIsIkFEVFlQRSI6InN0YXJ0bG9hZGluZyIsIlRISVJEQ0xJQ0siOiIiLCJGVUxMU0NSRUVOX0NMSUNLIjoiMSIsIlRZUEUiOiJTVEFSVExPQURJTkciLCJMT0NBVElPTiI6IiIsIlRISVJEU1RBIjoiIiwiQ1VTVE9NX0NMSUNLIjoiIiwiU1RBVElTVFVSTCI6Imh0dHA6XC9cL2FkLmRvcG9vbC5jb21cL2FkXC9BZHZcL2FwaS5waHAiLCJEVVJBVElPTiI6IjMiLCJFTkRUSU1FIjoiMTQ1NDc3NDQwMCIsIlBBUkFNUyI6Im9yZGVyaWQ9NzY5OCZvcmRlclByb2R1Y3Q9MjU1NSIsIkNVU1RPTV9TSE9XIjoiIiwiSUNPTiI6Imh0dHA6XC9cL2ltZy5kb3Bvb2wuY29tXC9QdWJsaWNcL1VwbG9hZHNcL2FkaW1hZ2VzXC81NmE1Yjg2NWFkNjA3LmpwZyIsIlRISVJEQVBJIjoiIiwiQ0xPU0UiOiIxIn19';
+},
+noAds:function(){
+alert('noads')
+},
+sendAdData:function(dataApi,eventName,adParams){
+console.log(dataApi+'--'+eventName+'--'+adParams);
+},
+getCurrentPlay:function(){
+   return '{"screen":"598.0X360.0","params":{"videoId":"365","videoType":"1"},"name":"ActivePlayerViewController"}'
+},
+showAds:function(show){
+  alert(show)
+},
+getIflyTek:function(){
+  return 'undefined'; 
+}
+}
+*/
+// StarsChina.deviceinfo.appkey = 'OTY2YTM4NmI0YTU0';
+// StarsChina.deviceinfo.app_v = 'beta';
+//// StarsChina.sendData('htmlload', {action: 'sartload',type: 'startloading',});
+var myDate = new Date();
+var datakey=myDate.getTime();
+var year = myDate.getFullYear();
+var month = myDate.getMonth();
+var day = myDate.getDate();
+var adDate = year + "-" + month + "-" + day;
+var api_url = "http://adapi.starschina.com/ad/Adv/api.php";
+//var api_url = "http://test.adapi.starschina.com/Adv/api.php";
+var dataApi = "http://ad-data.starschina.com";
+var urlParams;
+var madhouseAid='D89B8ABF8D2913E2';
+//var madhouseAid='7033D369E8312DA4';
+
+
+var AdJsServerController = {
+    adStatus: function(eventName){
+    var url= api_url+'?'+urlParams+'&a='+eventName+'&datakey='+datakey;
+        try{
+            //$.getJSON(url)
+            var script = document.createElement('script');
+            script.src = url;
+            document.body.appendChild(script);
+        }catch(e){
+            console.log(e.message());
+        }
+    },
+    mainFunction: function() {
+        var info = this.common.getItem("phoneInfo");
+        if (info == undefined) {
+            info = AdInterface.getPhoneInfo();
+            this.common.setItem("phoneInfo", info)
+        }
+        var clientParams = eval("(" + info + ")");
+        urlParams = this.setClientPramUrl(clientParams);
+        //AdJsServerController.adStatus('startMain');
+        //StarsChina.sendData('htmlload', {action: 'loadover',type: 'startloading',});
+        this.common.removeItem("banner");
+        this.common.removeItem("loading");
+        var allads = AdInterface.getDataCache("allads");
+        if (typeof(allads) == "string" && allads != "undefined") {
+            //AdJsServerController.adStatus('startAllads');
+            //StarsChina.sendData('htmlload', {action: 'alldatacache',type: 'startloading',});
+            var allads = JSON.parse(allads);
+            AdJsServerController.getadData(allads);
+            AdInterface.setDataCache("allads", "undefined");
+        }
+        this.getStartLoading(clientParams)
+    },
+    setClientPramUrl: function(clientParams) {
+        var url = new Array();
+        for (var key in clientParams) {
+            url.push(key + "=" + encodeURIComponent(clientParams[key]))
+        }
+        return url.join("&")
+    },
+    
+    getStartLoading: function(clientParams) {
+        var data = this.common.getItem("startloading");
+        urlParams = this.setClientPramUrl(clientParams);
+        var url = api_url + "?a=getstartloading&" + urlParams;
+        var res = AdInterface.getApi(url,'get','','',5);
+        if (typeof(res) == "string" && res.indexOf("CODE") == -1) {
+            var str = eval("(" + Base64.decode(res) + ")");
+            if (Object.prototype.toString.call(str["DATA"]) == "[object Object]") {
+                if (str["DATA"]["ICON"] != undefined) {
+                    var resData = str["DATA"];
+                    resData["STATISTURL"] = str["DATA"]["STATISTURL"];
+                    this.common.setItem("startloading", JSON.stringify(resData))
+                    this.showStartLoading(JSON.stringify(resData), clientParams,'nocache')
+                }
+            }else{
+                AdInterface.noAds()
+            }
+        } else {
+            AdInterface.noAds()
+        }
+    },
+    getadData: function(str) {
+        var time = new Date();
+        var timeExpires = time.getTime().toString();
+        loadData = {
+            "loading": []
+        };
+        if (Object.prototype.toString.call(str["DATA"]["LOADING"]) == "[object Object]") {
+            for (var key in str["DATA"]["LOADING"]) {
+                str["DATA"]["LOADING"][key]["ORDERID"] = key;
+                str["DATA"]["LOADING"][key]["PARAMS"] = this.paramsToJson(str["DATA"]["LOADING"][key]["PARAMS"]);
+                loadData["loading"].push(str["DATA"]["LOADING"][key])
+            }
+        }
+        if(str['DATA']['CHANGCEVIDEO']['ORDERID']!=undefined){
+            loadData['loading'].push(str['DATA']['CHANGCEVIDEO'])
+        }
+        loadData["adchina"] = str["DATA"]["ADCHINA"];
+        loadData["adchina_video"] = str["DATA"]["ADCHINA_VIDEO"];
+        loadData['admob']=str['DATA']['ADMOB'];
+        loadData["adtouch"] = str["DATA"]["ADTOUCH"];
+        loadData["bailin_loading"] = str["DATA"]["BAILIN_LOADING"];
+        this.common.setItem("loading", JSON.stringify(loadData));
+        this.common.setItem("loading_expires", timeExpires);
+        this.common.setItem("loading_index", "0");
+        if (Object.prototype.toString.call(str["DATA"]["STARTLOADING"]) == "[object Object]") {
+            if (str["DATA"]["STARTLOADING"]["ICON"] != undefined) {
+                var resData = str["DATA"]["STARTLOADING"];
+                resData["STATISTURL"] = str["DATA"]["STATISTURL"];
+                this.common.setItem("startloading", JSON.stringify(resData))
+            }
+        }
+        var resData = str["DATA"];
+        var bannerData = new Array();
+        var dopool_banner = {};
+        if (!this.isEmpty(resData["BANNER_V2"]) && Object.prototype.toString.call(resData["BANNER_V2"]) == "[object Object]") {
+            for (var key in resData["BANNER_V2"]) {
+                resData["BANNER_V2"][key]["ORDERID"] = key;
+                resData["BANNER_V2"][key]["PARAMS"] = this.paramsToJson(resData["BANNER_V2"][key]["PARAMS"]);
+                bannerData.push(resData["BANNER_V2"][key])
+            }
+        }
+        dopool_banner["type"] = "banner";
+        dopool_banner["data"] = bannerData;
+        this.common.setItem("banner", JSON.stringify(dopool_banner));
+        this.common.setItem("banner_expires", timeExpires);
+        this.common.setItem("banner_index", "0")
+    },
+    getMadhouseStartloading:function(){
+        var info = this.common.getItem("phoneInfo");
+        var clientParams = eval("(" + info + ")");
+        var time = new Date();
+        var now = parseInt(time.getTime()/1000);
+        var bid = madhouseAid+now+"0001";
+        var adspaceid=madhouseAid;
+        var pid=310;
+        var apitype=2;
+        var adtype=2;
+        var pkgname="com.dopool.dopTV";
+        var appname=encodeURIComponent("CIBN手机电视");
+        var conn;
+        var net=clientParams['net'].toLowerCase();
+        switch(net){
+            case 'wifi': conn=1;break;
+            case '2g' : conn=2;break;
+            case '3g' : conn=3;break;
+            case '4g' : conn=4;break;
+            default : conn=1;
+        }
+        var carrier="0";
+        var idfa=clientParams['idfa'];
+        var wma=clientParams['mac'].toUpperCase().replace(/:/g,'');
+        var os=1;
+        var osv=clientParams['osver'];
+        var width=720;
+        var height=1026;
+
+        //var url="http://ad.madserving.com/adcall/bidrequest?bid="+bid+"&adspaceid="+adspaceid+"&adtype="+adtype+"&pkgname="+pkgname+"&appname="+appname+"&conn="+conn+"&carrier="+carrier+"&imei="+imei+"&os="+os+"&osv="+osv+"&width="+width+"&height="+height+"&pid="+pid+"&apitype="+apitype+"&pcat=10&media=1";
+        var url="http://ad.mobiletv.madserving.com/client/bidrequest?bid="+bid+"&adspaceid="+adspaceid+"&adtype="+adtype+"&pkgname="+pkgname+"&appname="+appname+"&conn="+conn+"&carrier="+carrier+"&wma="+wma+"&idfa="+idfa+"&os="+os+"&osv="+osv+"&width="+width+"&height="+height+"&pid="+pid+"&apitype="+apitype+"&pcat=10&media=1";
+        console.log(url); 
+        res = AdInterface.getApi(url,'get','','',5);
+        return res;
+    },
+    showStartLoading: function(data, clientParams,type) {
+        
+        if (typeof(data) == "string") {
+            data = JSON.parse(data)
+        }
+        //alert(JSON.stringify(data))
+        if(data['ADTYPE']=='madhouse_startloading'){
+            var madhouse=AdJsServerController.getMadhouseStartloading();
+            if(madhouse!='undefined' ){
+                madhouse=JSON.parse(madhouse);
+                if(madhouse[madhouseAid]['returncode']==200){
+                    data['ICON']=madhouse[madhouseAid]['imgurl'];
+                    data['LOCATION']=madhouse[madhouseAid]['clickurl'];
+                    data['IMPR_URL']=madhouse[madhouseAid]['imgtracking'];
+                    data['CLICK_URL']=madhouse[madhouseAid]['thclkurl'];
+                }else{
+                    AdInterface.noAds();
+                    return false;
+   
+                }
+            }else{
+                AdInterface.noAds();
+                return false;
+            }
+        }
+        var impr_url;
+        var click_url;
+        if( data["IMPR_URL"]!=undefined ){
+            impr_url=data["IMPR_URL"]!=undefined ?data["IMPR_URL"]:[];
+        }else if( data["THIRDSTA"]!=undefined && data["THIRDSTA"] != ""){
+            impr_url=[data["THIRDSTA"]];
+        }
+        if( data["CLICK_URL"]!=undefined ){
+            click_url=data["CLICK_URL"]!=undefined ? data["CLICK_URL"] :[];
+        }else if( data["THIRDCLICK"]!=undefined && data["THIRDCLICK"] != ""){
+            click_url=[data["THIRDCLICK"]];
+        }
+        var ad = {
+            "dataApi": dataApi,
+            "type": "startLoading",
+            "timeout": data["DURATION"],
+            "params": this.getParamsJson(data["PARAMS"]),
+            "icon": data["ICON"],
+            "location": data["LOCATION"],
+            "location_type": data["LOCATION_TYPE"],
+            "close": data["CLOSE"].toString(),
+            "impr_url":impr_url,
+            "click_url":click_url
+        };
+        ad["api_url"] = api_url;
+        ad = JSON.stringify(ad)
+        var time = new Date();
+        var now = time.getTime();
+        if (now <= data["ENDTIME"] * 1000) {
+            //StarsChina.sendData('htmlload', {action: 'showAds',type: 'startloading',});
+            //AdJsServerController.adStatus('startshow'+type);
+            AdInterface.showAds(ad)
+        }else{
+            
+            //AdJsServerController.adStatus('startTimeoutSend'+type);
+            var url = api_url + "?a=getstartloading&" + urlParams;
+            var res = AdInterface.getApi(url,'get','','',5);
+            if (typeof(res) == "string" && res.indexOf("CODE") == -1) {
+                var str = eval("(" + Base64.decode(res) + ")");
+                if (Object.prototype.toString.call(str["DATA"]) == "[object Object]") {
+                    if (str["DATA"]["ICON"] != undefined) {
+                        var resData = str["DATA"];
+                        this.common.setItem("startloading", JSON.stringify(resData))
+                        if(resData['ADTYPE']=='madhouse_startloading'){
+                            var madhouse=AdJsServerController.getMadhouseStartloading();
+                            if(madhouse!='undefined' ){
+                                madhouse=JSON.parse(madhouse);
+                                if(madhouse[madhouseAid]['returncode']==200){
+                                    resData['ICON']=madhouse[madhouseAid]['imgurl'];
+                                    resData['LOCATION']=madhouse[madhouseAid]['clickurl'];
+                                    resData['IMPR_URL']=madhouse[madhouseAid]['imgtracking'];
+                                    resData['CLICK_URL']=madhouse[madhouseAid]['thclkurl'];
+                                }else{
+                                    AdInterface.noAds();
+                                    return false;
+                   
+                                }
+                            }else{
+                                AdInterface.noAds();
+                                return false;
+                            }
+                        }
+                        var ad = {
+                            "dataApi": dataApi,
+                            "type": "startLoading",
+                            "timeout": resData["DURATION"],
+                            "params": this.getParamsJson(resData["PARAMS"]),
+                            "icon": resData["ICON"],
+                            "location": resData["LOCATION"],
+                            "location_type": data["LOCATION_TYPE"],
+                            "close": resData["CLOSE"].toString(),
+                            "impr_url":resData["IMPR_URL"]!=undefined?resData["IMPR_URL"]:[],
+                            "click_url":resData["CLICK_URL"]!=undefined?resData["CLICK_URL"]:[],
+                        };
+                        //StarsChina.sendData('htmlload', {action: 'adexpireRequestShowAds',type: 'startloading',});
+                        //AdJsServerController.adStatus('startTimeoutShow'+type);
+                        AdInterface.showAds(JSON.stringify(ad))
+                    }
+                }
+            } else {
+                //StarsChina.sendData('htmlload', {action: 'adexpireRequestNoAds',type: 'startloading',});
+            }
+        }
+    },
+    paramsToJson: function(params) {
+        var data = params.split("&");
+        var res = {};
+        for (var i = 0, iLoop = data.length; i < iLoop; i++) {
+            var tmp = data[i].split("=");
+            res[tmp[0]] = tmp[1]
+        }
+        return res
+    },
+    getParamsJson:function(params) {
+        var data = params.split("&");
+        var jsonData = {};
+        for (var i = data.length - 1; i >= 0; i--) {
+            var tmp = data[i].split("=");
+            jsonData[tmp[0]] = tmp[1]
+        }
+        return jsonData
+    },
+    common:{
+        "getItem": function(key) {
+            var info = AdInterface.getPhoneInfo();
+            info = JSON.parse(info);
+            var app_ver = info['app_ver']!=undefined?info['app_ver']:info['appver'];;
+            key = app_ver + "_" + key;
+            var res;
+            if(typeof(AdInterface)!="undefined" && "setDataCache" in AdInterface){
+                res = AdInterface.getDataCache(key);
+                if (res == "undefined") {
+                    res = undefined
+                }
+            } else {
+                res = localStorage.getItem(key)
+            }
+            return res
+        },
+        "setItem": function(key, value) {
+            var info = AdInterface.getPhoneInfo();
+            info = JSON.parse(info);
+            var app_ver = info['app_ver']!=undefined?info['app_ver']:info['appver'];;
+            key = app_ver + "_" + key;
+            if(typeof(AdInterface)!="undefined" && "setDataCache" in AdInterface){
+                res = AdInterface.setDataCache(key, value)
+            } else {
+                res = localStorage.setItem(key, value)
+            }
+        },
+        "removeItem": function(key) {
+            var info = AdInterface.getPhoneInfo();
+            info = JSON.parse(info);
+            var app_ver = info['app_ver']!=undefined?info['app_ver']:info['appver'];;
+            key = app_ver + "_" + key;
+            if(typeof(AdInterface)!="undefined" && "setDataCache" in AdInterface){
+                AdInterface.removeDataCache(key)
+            } else {
+                localStorage.removeItem(key)
+            }
+        }
+    },
+
+    isEmpty:function(obj) {
+        for (var name in obj) {
+            return false
+        }
+        return true
+    }
+};
+
+
+var Base64 = {
+    _keyStr: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",
+    encode: function(input) {
+        var output = "";
+        var chr1, chr2, chr3, enc1, enc2, enc3, enc4;
+        var i = 0;
+        input = Base64._utf8_encode(input);
+        while (i < input.length) {
+            chr1 = input.charCodeAt(i++);
+            chr2 = input.charCodeAt(i++);
+            chr3 = input.charCodeAt(i++);
+            enc1 = chr1 >> 2;
+            enc2 = ((chr1 & 3) << 4) | (chr2 >> 4);
+            enc3 = ((chr2 & 15) << 2) | (chr3 >> 6);
+            enc4 = chr3 & 63;
+            if (isNaN(chr2)) {
+                enc3 = enc4 = 64
+            } else {
+                if (isNaN(chr3)) {
+                    enc4 = 64
+                }
+            }
+            output = output + this._keyStr.charAt(enc1) + this._keyStr.charAt(enc2) + this._keyStr.charAt(enc3) + this._keyStr.charAt(enc4)
+        }
+        return output
+    },
+    decode: function(input) {
+        var output = "";
+        var chr1, chr2, chr3;
+        var enc1, enc2, enc3, enc4;
+        var i = 0;
+        input = input.replace(/[^A-Za-z0-9\+\/\=]/g, "");
+        while (i < input.length) {
+            enc1 = this._keyStr.indexOf(input.charAt(i++));
+            enc2 = this._keyStr.indexOf(input.charAt(i++));
+            enc3 = this._keyStr.indexOf(input.charAt(i++));
+            enc4 = this._keyStr.indexOf(input.charAt(i++));
+            chr1 = (enc1 << 2) | (enc2 >> 4);
+            chr2 = ((enc2 & 15) << 4) | (enc3 >> 2);
+            chr3 = ((enc3 & 3) << 6) | enc4;
+            output = output + String.fromCharCode(chr1);
+            if (enc3 != 64) {
+                output = output + String.fromCharCode(chr2)
+            }
+            if (enc4 != 64) {
+                output = output + String.fromCharCode(chr3)
+            }
+        }
+        output = Base64._utf8_decode(output);
+        return output
+    },
+    _utf8_encode: function(string) {
+        string = string.replace(/\r\n/g, "\n");
+        var utftext = "";
+        for (var n = 0; n < string.length; n++) {
+            var c = string.charCodeAt(n);
+            if (c < 128) {
+                utftext += String.fromCharCode(c)
+            } else {
+                if ((c > 127) && (c < 2048)) {
+                    utftext += String.fromCharCode((c >> 6) | 192);
+                    utftext += String.fromCharCode((c & 63) | 128)
+                } else {
+                    utftext += String.fromCharCode((c >> 12) | 224);
+                    utftext += String.fromCharCode(((c >> 6) & 63) | 128);
+                    utftext += String.fromCharCode((c & 63) | 128)
+                }
+            }
+        }
+        return utftext
+    },
+    _utf8_decode: function(utftext) {
+        var string = "";
+        var i = 0;
+        var c = c1 = c2 = 0;
+        while (i < utftext.length) {
+            c = utftext.charCodeAt(i);
+            if (c < 128) {
+                string += String.fromCharCode(c);
+                i++
+            } else {
+                if ((c > 191) && (c < 224)) {
+                    c2 = utftext.charCodeAt(i + 1);
+                    string += String.fromCharCode(((c & 31) << 6) | (c2 & 63));
+                    i += 2
+                } else {
+                    c2 = utftext.charCodeAt(i + 1);
+                    c3 = utftext.charCodeAt(i + 2);
+                    string += String.fromCharCode(((c & 15) << 12) | ((c2 & 63) << 6) | (c3 & 63));
+                    i += 3
+                }
+            }
+        }
+        return string
+    }
+};
+AdJsServerController.mainFunction();
+
+</script>
+</html>
+
+
+
