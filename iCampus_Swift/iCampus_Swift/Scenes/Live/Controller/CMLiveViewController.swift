@@ -9,10 +9,28 @@
 import UIKit
 
 class CMLiveViewController: CMBaseController {
-
+    var dataSource: [LiveListModel] = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        if TVEngine.isRegistered() {
+            TVEngine.getChannelList { (array, _) in
+                print(array ?? [])
+            }
+        } else {
+            TVEngine.creat(withSDKAppKey: "MDgxY2I2MGRhZGUw") { (success, error) in
+                if success {
+                    TVEngine.getChannelList { (array, _) in
+                        guard let data = array else { return  }
+                        self.dataSource = [LiveListModel].deserialize(from: data)! as! [LiveListModel]
+                        print(self.dataSource[0])
+                        }
+                } else {
+                    print("failure")
+                }
+            }
+        }
+       
         // Do any additional setup after loading the view.
     }
 

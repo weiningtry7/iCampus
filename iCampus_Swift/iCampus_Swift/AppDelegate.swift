@@ -1,3 +1,4 @@
+
 //
 //  AppDelegate.swift
 //  iCampus_Swift
@@ -16,6 +17,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        TVEngine.creat(withSDKAppKey: "MDgxY2I2MGRhZGUw") { (success, error) in
+            if success {
+                print("success")
+               
+            } else {
+                print("failure")
+            }
+        }
+       
+        
         return true
     }
 

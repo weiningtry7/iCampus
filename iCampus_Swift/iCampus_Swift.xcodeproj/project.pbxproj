@@ -8,19 +8,38 @@
 
 /* Begin PBXBuildFile section */
 		484A412171A8EC047B45916E /* Pods_iCampus_Swift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CBD7A5ED935E50821C5C286 /* Pods_iCampus_Swift.framework */; };
+		B73255592043DB31007AE25A /* libFFmpeg_arm64.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B73255522043DB31007AE25A /* libFFmpeg_arm64.a */; };
+		B732555A2043DB31007AE25A /* libFFmpeg_armv7.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B73255532043DB31007AE25A /* libFFmpeg_armv7.a */; };
+		B732555B2043DB31007AE25A /* libFFmpeg_i386.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B73255542043DB31007AE25A /* libFFmpeg_i386.a */; };
+		B732555C2043DB31007AE25A /* libFFmpeg_x86_64.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B73255552043DB31007AE25A /* libFFmpeg_x86_64.a */; };
+		B732555D2043DB31007AE25A /* libNative-p2p-cocoa.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B73255562043DB31007AE25A /* libNative-p2p-cocoa.a */; };
+		B732555E2043DB31007AE25A /* libTVEngine.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B73255572043DB31007AE25A /* libTVEngine.a */; };
+		B732555F2043DB31007AE25A /* TVEngineRes.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B73255582043DB31007AE25A /* TVEngineRes.bundle */; };
+		B73255612043DD3E007AE25A /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B73255602043DD3D007AE25A /* ImageIO.framework */; };
+		B73255632043DD46007AE25A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B73255622043DD46007AE25A /* CoreGraphics.framework */; };
+		B73255652043DEC3007AE25A /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B73255642043DEC3007AE25A /* CoreAudio.framework */; };
+		B73255672043DEDE007AE25A /* VideoToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B73255662043DEDE007AE25A /* VideoToolbox.framework */; };
+		B73255692043DEF6007AE25A /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B73255682043DEF6007AE25A /* GLKit.framework */; };
+		B732556B2043DF09007AE25A /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B732556A2043DF09007AE25A /* MediaPlayer.framework */; };
+		B732556D2043DF4C007AE25A /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B732556C2043DF4C007AE25A /* CoreMedia.framework */; };
+		B732556F2043DFA5007AE25A /* libbz2.1.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B732556E2043DFA5007AE25A /* libbz2.1.0.tbd */; };
+		B73255712043DFC7007AE25A /* libstdc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B73255702043DFC7007AE25A /* libstdc++.tbd */; };
+		B73255732043DFD2007AE25A /* libz.1.1.3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B73255722043DFD2007AE25A /* libz.1.1.3.tbd */; };
+		B73255752043DFDD007AE25A /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B73255742043DFDD007AE25A /* SystemConfiguration.framework */; };
+		B73255772043DFE5007AE25A /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B73255762043DFE5007AE25A /* Security.framework */; };
+		B73255792043DFEF007AE25A /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B73255782043DFEF007AE25A /* CFNetwork.framework */; };
+		B732557D2043E0D7007AE25A /* libiconv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B732557C2043E0D7007AE25A /* libiconv.tbd */; };
+		B732557F2043E0EB007AE25A /* libresolv.9.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B732557E2043E0EB007AE25A /* libresolv.9.tbd */; };
+		B73255812043E108007AE25A /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B73255802043E108007AE25A /* libc++.tbd */; };
+		B73255832043E168007AE25A /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B73255822043E168007AE25A /* AVFoundation.framework */; };
+		B73255852043E196007AE25A /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B73255842043E196007AE25A /* Accelerate.framework */; };
+		B732558720440C85007AE25A /* LiveListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B732558620440C85007AE25A /* LiveListModel.swift */; };
 		B73D7C82203FA77A00FBE2F4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73D7C81203FA77A00FBE2F4 /* AppDelegate.swift */; };
 		B73D7C87203FA77A00FBE2F4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B73D7C85203FA77A00FBE2F4 /* Main.storyboard */; };
 		B73D7C89203FA77A00FBE2F4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B73D7C88203FA77A00FBE2F4 /* Assets.xcassets */; };
 		B73D7C8C203FA77A00FBE2F4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B73D7C8A203FA77A00FBE2F4 /* LaunchScreen.storyboard */; };
 		B73D7C97203FA77B00FBE2F4 /* iCampus_SwiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73D7C96203FA77B00FBE2F4 /* iCampus_SwiftTests.swift */; };
 		B73D7CA2203FA77B00FBE2F4 /* iCampus_SwiftUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73D7CA1203FA77B00FBE2F4 /* iCampus_SwiftUITests.swift */; };
-		B7762ED42040F7BB00FCF14E /* libFFmpeg_arm64.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B7762ECD2040F7BB00FCF14E /* libFFmpeg_arm64.a */; };
-		B7762ED52040F7BB00FCF14E /* libFFmpeg_armv7.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B7762ECE2040F7BB00FCF14E /* libFFmpeg_armv7.a */; };
-		B7762ED62040F7BB00FCF14E /* libFFmpeg_i386.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B7762ECF2040F7BB00FCF14E /* libFFmpeg_i386.a */; };
-		B7762ED72040F7BB00FCF14E /* libFFmpeg_x86_64.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B7762ED02040F7BB00FCF14E /* libFFmpeg_x86_64.a */; };
-		B7762ED82040F7BB00FCF14E /* libNative-p2p-cocoa.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B7762ED12040F7BB00FCF14E /* libNative-p2p-cocoa.a */; };
-		B7762ED92040F7BB00FCF14E /* libTVEngine.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B7762ED22040F7BB00FCF14E /* libTVEngine.a */; };
-		B7762EDA2040F7BB00FCF14E /* TVEngineRes.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B7762ED32040F7BB00FCF14E /* TVEngineRes.bundle */; };
 		B7762EDD20410B3F00FCF14E /* CMLiveViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7762EDB20410B3F00FCF14E /* CMLiveViewController.swift */; };
 		B7762EDE20410B3F00FCF14E /* CMLiveViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B7762EDC20410B3F00FCF14E /* CMLiveViewController.xib */; };
 		B7762EE420410F8000FCF14E /* CMExpandViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7762EE320410F8000FCF14E /* CMExpandViewController.swift */; };
@@ -54,6 +73,36 @@
 		1D77767FAC0EC6390A355B94 /* Pods-iCampus_Swift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iCampus_Swift.debug.xcconfig"; path = "Pods/Target Support Files/Pods-iCampus_Swift/Pods-iCampus_Swift.debug.xcconfig"; sourceTree = "<group>"; };
 		2CBD7A5ED935E50821C5C286 /* Pods_iCampus_Swift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_iCampus_Swift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8380304BB8C5A2CB3C5F83F7 /* Pods-iCampus_Swift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iCampus_Swift.release.xcconfig"; path = "Pods/Target Support Files/Pods-iCampus_Swift/Pods-iCampus_Swift.release.xcconfig"; sourceTree = "<group>"; };
+		B732554C20439B36007AE25A /* Bridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Bridge.h; sourceTree = "<group>"; };
+		B732554F2043DB31007AE25A /* TVEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TVEngine.h; sourceTree = "<group>"; };
+		B73255502043DB31007AE25A /* VideoPlayerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoPlayerController.h; sourceTree = "<group>"; };
+		B73255522043DB31007AE25A /* libFFmpeg_arm64.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFFmpeg_arm64.a; sourceTree = "<group>"; };
+		B73255532043DB31007AE25A /* libFFmpeg_armv7.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFFmpeg_armv7.a; sourceTree = "<group>"; };
+		B73255542043DB31007AE25A /* libFFmpeg_i386.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFFmpeg_i386.a; sourceTree = "<group>"; };
+		B73255552043DB31007AE25A /* libFFmpeg_x86_64.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFFmpeg_x86_64.a; sourceTree = "<group>"; };
+		B73255562043DB31007AE25A /* libNative-p2p-cocoa.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libNative-p2p-cocoa.a"; sourceTree = "<group>"; };
+		B73255572043DB31007AE25A /* libTVEngine.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libTVEngine.a; sourceTree = "<group>"; };
+		B73255582043DB31007AE25A /* TVEngineRes.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = TVEngineRes.bundle; sourceTree = "<group>"; };
+		B73255602043DD3D007AE25A /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
+		B73255622043DD46007AE25A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		B73255642043DEC3007AE25A /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
+		B73255662043DEDE007AE25A /* VideoToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VideoToolbox.framework; path = System/Library/Frameworks/VideoToolbox.framework; sourceTree = SDKROOT; };
+		B73255682043DEF6007AE25A /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
+		B732556A2043DF09007AE25A /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
+		B732556C2043DF4C007AE25A /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
+		B732556E2043DFA5007AE25A /* libbz2.1.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libbz2.1.0.tbd; path = usr/lib/libbz2.1.0.tbd; sourceTree = SDKROOT; };
+		B73255702043DFC7007AE25A /* libstdc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.tbd"; path = "usr/lib/libstdc++.tbd"; sourceTree = SDKROOT; };
+		B73255722043DFD2007AE25A /* libz.1.1.3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.1.1.3.tbd; path = usr/lib/libz.1.1.3.tbd; sourceTree = SDKROOT; };
+		B73255742043DFDD007AE25A /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		B73255762043DFE5007AE25A /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		B73255782043DFEF007AE25A /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		B732557A2043E034007AE25A /* libiconv.2.4.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libiconv.2.4.0.tbd; path = usr/lib/libiconv.2.4.0.tbd; sourceTree = SDKROOT; };
+		B732557C2043E0D7007AE25A /* libiconv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libiconv.tbd; path = usr/lib/libiconv.tbd; sourceTree = SDKROOT; };
+		B732557E2043E0EB007AE25A /* libresolv.9.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libresolv.9.tbd; path = usr/lib/libresolv.9.tbd; sourceTree = SDKROOT; };
+		B73255802043E108007AE25A /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
+		B73255822043E168007AE25A /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		B73255842043E196007AE25A /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
+		B732558620440C85007AE25A /* LiveListModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveListModel.swift; sourceTree = "<group>"; };
 		B73D7C7E203FA77A00FBE2F4 /* iCampus_Swift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iCampus_Swift.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B73D7C81203FA77A00FBE2F4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B73D7C86203FA77A00FBE2F4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -66,15 +115,6 @@
 		B73D7C9D203FA77B00FBE2F4 /* iCampus_SwiftUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iCampus_SwiftUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B73D7CA1203FA77B00FBE2F4 /* iCampus_SwiftUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iCampus_SwiftUITests.swift; sourceTree = "<group>"; };
 		B73D7CA3203FA77B00FBE2F4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		B7762ECA2040F7BB00FCF14E /* TVEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TVEngine.h; sourceTree = "<group>"; };
-		B7762ECB2040F7BB00FCF14E /* VideoPlayerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoPlayerController.h; sourceTree = "<group>"; };
-		B7762ECD2040F7BB00FCF14E /* libFFmpeg_arm64.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFFmpeg_arm64.a; sourceTree = "<group>"; };
-		B7762ECE2040F7BB00FCF14E /* libFFmpeg_armv7.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFFmpeg_armv7.a; sourceTree = "<group>"; };
-		B7762ECF2040F7BB00FCF14E /* libFFmpeg_i386.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFFmpeg_i386.a; sourceTree = "<group>"; };
-		B7762ED02040F7BB00FCF14E /* libFFmpeg_x86_64.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFFmpeg_x86_64.a; sourceTree = "<group>"; };
-		B7762ED12040F7BB00FCF14E /* libNative-p2p-cocoa.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libNative-p2p-cocoa.a"; sourceTree = "<group>"; };
-		B7762ED22040F7BB00FCF14E /* libTVEngine.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libTVEngine.a; sourceTree = "<group>"; };
-		B7762ED32040F7BB00FCF14E /* TVEngineRes.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = TVEngineRes.bundle; sourceTree = "<group>"; };
 		B7762EDB20410B3F00FCF14E /* CMLiveViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CMLiveViewController.swift; sourceTree = "<group>"; };
 		B7762EDC20410B3F00FCF14E /* CMLiveViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CMLiveViewController.xib; sourceTree = "<group>"; };
 		B7762EE320410F8000FCF14E /* CMExpandViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CMExpandViewController.swift; sourceTree = "<group>"; };
@@ -130,13 +170,31 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B7762ED52040F7BB00FCF14E /* libFFmpeg_armv7.a in Frameworks */,
-				B7762ED72040F7BB00FCF14E /* libFFmpeg_x86_64.a in Frameworks */,
-				B7762ED82040F7BB00FCF14E /* libNative-p2p-cocoa.a in Frameworks */,
-				B7762ED62040F7BB00FCF14E /* libFFmpeg_i386.a in Frameworks */,
-				B7762ED42040F7BB00FCF14E /* libFFmpeg_arm64.a in Frameworks */,
-				B7762ED92040F7BB00FCF14E /* libTVEngine.a in Frameworks */,
+				B73255852043E196007AE25A /* Accelerate.framework in Frameworks */,
+				B73255832043E168007AE25A /* AVFoundation.framework in Frameworks */,
+				B73255812043E108007AE25A /* libc++.tbd in Frameworks */,
+				B732557F2043E0EB007AE25A /* libresolv.9.tbd in Frameworks */,
+				B732557D2043E0D7007AE25A /* libiconv.tbd in Frameworks */,
+				B73255792043DFEF007AE25A /* CFNetwork.framework in Frameworks */,
+				B73255772043DFE5007AE25A /* Security.framework in Frameworks */,
+				B73255752043DFDD007AE25A /* SystemConfiguration.framework in Frameworks */,
+				B73255732043DFD2007AE25A /* libz.1.1.3.tbd in Frameworks */,
+				B73255712043DFC7007AE25A /* libstdc++.tbd in Frameworks */,
+				B732556F2043DFA5007AE25A /* libbz2.1.0.tbd in Frameworks */,
+				B73255652043DEC3007AE25A /* CoreAudio.framework in Frameworks */,
+				B732556D2043DF4C007AE25A /* CoreMedia.framework in Frameworks */,
+				B732556B2043DF09007AE25A /* MediaPlayer.framework in Frameworks */,
+				B73255692043DEF6007AE25A /* GLKit.framework in Frameworks */,
+				B73255672043DEDE007AE25A /* VideoToolbox.framework in Frameworks */,
+				B73255632043DD46007AE25A /* CoreGraphics.framework in Frameworks */,
+				B73255612043DD3E007AE25A /* ImageIO.framework in Frameworks */,
+				B732555B2043DB31007AE25A /* libFFmpeg_i386.a in Frameworks */,
+				B732555D2043DB31007AE25A /* libNative-p2p-cocoa.a in Frameworks */,
 				484A412171A8EC047B45916E /* Pods_iCampus_Swift.framework in Frameworks */,
+				B73255592043DB31007AE25A /* libFFmpeg_arm64.a in Frameworks */,
+				B732555C2043DB31007AE25A /* libFFmpeg_x86_64.a in Frameworks */,
+				B732555A2043DB31007AE25A /* libFFmpeg_armv7.a in Frameworks */,
+				B732555E2043DB31007AE25A /* libTVEngine.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -164,6 +222,38 @@
 				8380304BB8C5A2CB3C5F83F7 /* Pods-iCampus_Swift.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		B732554D2043DB31007AE25A /* CIBN */ = {
+			isa = PBXGroup;
+			children = (
+				B732554E2043DB31007AE25A /* include */,
+				B73255512043DB31007AE25A /* lib */,
+			);
+			path = CIBN;
+			sourceTree = "<group>";
+		};
+		B732554E2043DB31007AE25A /* include */ = {
+			isa = PBXGroup;
+			children = (
+				B732554F2043DB31007AE25A /* TVEngine.h */,
+				B73255502043DB31007AE25A /* VideoPlayerController.h */,
+			);
+			path = include;
+			sourceTree = "<group>";
+		};
+		B73255512043DB31007AE25A /* lib */ = {
+			isa = PBXGroup;
+			children = (
+				B73255522043DB31007AE25A /* libFFmpeg_arm64.a */,
+				B73255532043DB31007AE25A /* libFFmpeg_armv7.a */,
+				B73255542043DB31007AE25A /* libFFmpeg_i386.a */,
+				B73255552043DB31007AE25A /* libFFmpeg_x86_64.a */,
+				B73255562043DB31007AE25A /* libNative-p2p-cocoa.a */,
+				B73255572043DB31007AE25A /* libTVEngine.a */,
+				B73255582043DB31007AE25A /* TVEngineRes.bundle */,
+			);
+			path = lib;
 			sourceTree = "<group>";
 		};
 		B73D7C75203FA77A00FBE2F4 = {
@@ -197,6 +287,7 @@
 				B78A1BCC203FAA0D00B70435 /* NetTools */,
 				B78A1BCE203FAA0D00B70435 /* Scenes */,
 				B73D7C81203FA77A00FBE2F4 /* AppDelegate.swift */,
+				B732554C20439B36007AE25A /* Bridge.h */,
 				B73D7C85203FA77A00FBE2F4 /* Main.storyboard */,
 				B73D7C88203FA77A00FBE2F4 /* Assets.xcassets */,
 				B73D7C8A203FA77A00FBE2F4 /* LaunchScreen.storyboard */,
@@ -226,41 +317,9 @@
 		B7762EC72040F7BA00FCF14E /* Venders */ = {
 			isa = PBXGroup;
 			children = (
-				B7762EC82040F7BA00FCF14E /* CIBN */,
+				B732554D2043DB31007AE25A /* CIBN */,
 			);
 			path = Venders;
-			sourceTree = "<group>";
-		};
-		B7762EC82040F7BA00FCF14E /* CIBN */ = {
-			isa = PBXGroup;
-			children = (
-				B7762EC92040F7BB00FCF14E /* include */,
-				B7762ECC2040F7BB00FCF14E /* lib */,
-			);
-			path = CIBN;
-			sourceTree = "<group>";
-		};
-		B7762EC92040F7BB00FCF14E /* include */ = {
-			isa = PBXGroup;
-			children = (
-				B7762ECA2040F7BB00FCF14E /* TVEngine.h */,
-				B7762ECB2040F7BB00FCF14E /* VideoPlayerController.h */,
-			);
-			path = include;
-			sourceTree = "<group>";
-		};
-		B7762ECC2040F7BB00FCF14E /* lib */ = {
-			isa = PBXGroup;
-			children = (
-				B7762ECD2040F7BB00FCF14E /* libFFmpeg_arm64.a */,
-				B7762ECE2040F7BB00FCF14E /* libFFmpeg_armv7.a */,
-				B7762ECF2040F7BB00FCF14E /* libFFmpeg_i386.a */,
-				B7762ED02040F7BB00FCF14E /* libFFmpeg_x86_64.a */,
-				B7762ED12040F7BB00FCF14E /* libNative-p2p-cocoa.a */,
-				B7762ED22040F7BB00FCF14E /* libTVEngine.a */,
-				B7762ED32040F7BB00FCF14E /* TVEngineRes.bundle */,
-			);
-			path = lib;
 			sourceTree = "<group>";
 		};
 		B7762EDF20410C2600FCF14E /* ExpandingViewController */ = {
@@ -368,6 +427,7 @@
 		B78A1BD1203FAA0D00B70435 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				B732558620440C85007AE25A /* LiveListModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -416,6 +476,25 @@
 		B78A1C01203FF1BF00B70435 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B73255842043E196007AE25A /* Accelerate.framework */,
+				B73255822043E168007AE25A /* AVFoundation.framework */,
+				B73255802043E108007AE25A /* libc++.tbd */,
+				B732557E2043E0EB007AE25A /* libresolv.9.tbd */,
+				B732557C2043E0D7007AE25A /* libiconv.tbd */,
+				B732557A2043E034007AE25A /* libiconv.2.4.0.tbd */,
+				B73255782043DFEF007AE25A /* CFNetwork.framework */,
+				B73255762043DFE5007AE25A /* Security.framework */,
+				B73255742043DFDD007AE25A /* SystemConfiguration.framework */,
+				B73255722043DFD2007AE25A /* libz.1.1.3.tbd */,
+				B73255702043DFC7007AE25A /* libstdc++.tbd */,
+				B732556E2043DFA5007AE25A /* libbz2.1.0.tbd */,
+				B732556C2043DF4C007AE25A /* CoreMedia.framework */,
+				B732556A2043DF09007AE25A /* MediaPlayer.framework */,
+				B73255682043DEF6007AE25A /* GLKit.framework */,
+				B73255662043DEDE007AE25A /* VideoToolbox.framework */,
+				B73255642043DEC3007AE25A /* CoreAudio.framework */,
+				B73255622043DD46007AE25A /* CoreGraphics.framework */,
+				B73255602043DD3D007AE25A /* ImageIO.framework */,
 				B78A1C02203FF1BF00B70435 /* iOS */,
 				2CBD7A5ED935E50821C5C286 /* Pods_iCampus_Swift.framework */,
 			);
@@ -580,10 +659,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				B73D7C8C203FA77A00FBE2F4 /* LaunchScreen.storyboard in Resources */,
-				B7762EDA2040F7BB00FCF14E /* TVEngineRes.bundle in Resources */,
 				B7762EDE20410B3F00FCF14E /* CMLiveViewController.xib in Resources */,
 				B73D7C89203FA77A00FBE2F4 /* Assets.xcassets in Resources */,
 				B73D7C87203FA77A00FBE2F4 /* Main.storyboard in Resources */,
+				B732555F2043DB31007AE25A /* TVEngineRes.bundle in Resources */,
 				B78C43B2203FEA7200BCDE70 /* CMLiveTableViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -613,12 +692,14 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-iCampus_Swift/Pods-iCampus_Swift-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/HandyJSON/HandyJSON.framework",
 				"${BUILT_PRODUCTS_DIR}/Moya/Moya.framework",
 				"${BUILT_PRODUCTS_DIR}/Result/Result.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/HandyJSON.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Moya.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Result.framework",
 			);
@@ -676,6 +757,7 @@
 				B78A1BEB203FE59500B70435 /* CMBaseController.swift in Sources */,
 				B7762EE420410F8000FCF14E /* CMExpandViewController.swift in Sources */,
 				B7762EFB2041478500FCF14E /* CMPageCollectionLayout.swift in Sources */,
+				B732558720440C85007AE25A /* LiveListModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -844,18 +926,36 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = C9D8TTSYNA;
+				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Alamofire\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Moya\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Result\"",
+				);
 				INFOPLIST_FILE = iCampus_Swift/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/iCampus_Swift/CIBN/lib",
 					"$(PROJECT_DIR)/iCampus_Swift/Venders/CIBN/lib",
+				);
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-framework",
+					"\"Alamofire\"",
+					"-framework",
+					"\"Moya\"",
+					"-framework",
+					"\"Result\"",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.pinet.iCampus;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = /Users/jdd/Desktop/iCampus_Swift_1.0/iCampus_Swift/iCampus_Swift/Bridge.h;
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				USER_HEADER_SEARCH_PATHS = "$(PODS_ROOT)/**";
 			};
 			name = Debug;
 		};
@@ -866,18 +966,36 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = C9D8TTSYNA;
+				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Alamofire\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Moya\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Result\"",
+				);
 				INFOPLIST_FILE = iCampus_Swift/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/iCampus_Swift/CIBN/lib",
 					"$(PROJECT_DIR)/iCampus_Swift/Venders/CIBN/lib",
+				);
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-framework",
+					"\"Alamofire\"",
+					"-framework",
+					"\"Moya\"",
+					"-framework",
+					"\"Result\"",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.pinet.iCampus;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = /Users/jdd/Desktop/iCampus_Swift_1.0/iCampus_Swift/iCampus_Swift/Bridge.h;
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				USER_HEADER_SEARCH_PATHS = "$(PODS_ROOT)/**";
 			};
 			name = Release;
 		};
